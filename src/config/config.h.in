@@ -1,0 +1,23 @@
+#ifndef __INIP_CONFIG_H__
+#define __INIP_CONFIG_H__
+
+// 禁止一个 Sectio 中存在同名 key
+#cmakedefine INIP_DISABLE_RRADD_NODE_KEY
+// 禁止一个文件内存在两个同名 Section
+#cmakedefine INIP_DISABLE_APPEND_SECTION
+// 出现同名 key时，覆盖
+#cmakedefine INIP_COVER_KEY_IF_EXIST
+// 出现同名 Section 时，覆盖
+#cmakedefine INIP_COVER_SECTION_IF_EXIST
+// 解析错误抛出异常
+#cmakedefine INIP_THROW_EXP_IF_ERROR
+
+// inip::Section::clear 函数是否同时清除 name
+#cmakedefine INIP_SECTION_CLEAR_NAME
+// inip::ini::clear 函数是否同时清除 file_name
+#cmakedefine INIP_INI_CLEAR_NAME
+
+// 使用 __import__ 关键字扩展
+#cmakedefine INIP_USE_IMPORT
+
+#endif

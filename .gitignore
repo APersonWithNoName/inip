@@ -1,0 +1,171 @@
+# 编译生成的文件
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+
+# 可执行文件
+*.exe
+*.out
+*.app
+
+# 预编译头文件
+*.gch
+*.pch
+
+# 依赖文件
+*.d
+
+# 日志文件
+*.log
+
+# 临时文件
+*.tmp
+*.temp
+
+# 平台/IDE 相关文件
+
+## Visual Studio
+.vs/
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
+*.suo
+*.opensdf
+*.sdf
+ipch/
+*.aps
+*.ncb
+*.user
+*.db
+*.opendb
+
+## CLion
+.idea/
+*.iml
+cmake-build-*/
+
+## Eclipse
+.settings/
+.metadata/
+*.cproject
+*.project
+.classpath
+*.launch
+
+## Xcode
+build/
+DerivedData/
+*.xcworkspace
+*.xcodeproj
+xcuserdata/
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.pbxuser
+*.xcuserstate
+
+## VS Code
+.vscode/
+*.code-workspace
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+install_manifest.txt
+CTestTestfile.cmake
+_deps/
+Makefile
+
+# Autotools
+autom4te.cache/
+aclocal.m4
+compile
+config.guess
+config.h
+config.log
+config.status
+config.sub
+configure
+depcomp
+install-sh
+libtool
+ltmain.sh
+missing
+stamp-h1
+*.m4
+
+# 静态分析工具
+*.plist
+*.cache
+
+# 测试相关
+*.gcda
+*.gcno
+*.gcov
+
+# 包管理工具
+conaninfo.txt
+conanbuildinfo.*
+conan_imports_*
+
+# 文档生成
+doxygen/
+html/
+latex/
+
+# 二进制文件
+*.bin
+*.hex
+
+# 备份文件
+*~
+*.bak
+*.backup
+*.swp
+*.swo
+
+# 操作系统生成的文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 编辑器临时文件
+*.sublime-*
+*.komodoproject
+*.kdev4
+
+# 版本控制系统
+
+# 项目特定排除（根据需要取消注释）
+build/
+bin/
+lib/
+include/generated/
+*.orig
+*.rej
+compile_commands.json
+
+# 本地配置文件（通常包含敏感信息或本地设置）
+local.properties
+local.config
+.env
+.env.local
+.env.*.local
+
+# 覆盖率报告
+coverage/
+*.gcov
+
+# 性能分析文件
+*.prof
+*.gprof

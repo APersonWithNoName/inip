@@ -1,0 +1,143 @@
+# 基于 LLVM 代码风格
+BasedOnStyle: Google
+
+# 访问修饰符（private/public）的缩进偏移量，0表示不缩进
+AccessModifierOffset: 0
+
+# 括号对齐设置
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlignEscapedNewlines: Right
+AlignOperands: Align
+AlignTrailingComments: true
+
+# 函数参数和声明设置
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowShortBlocksOnASingleLine: Never
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLambdasOnASingleLine: All
+AllowShortLoopsOnASingleLine: false
+
+# 操作符换行设置
+BreakBeforeBinaryOperators: NonAssignment
+
+# 大括号换行设置 - 这是关键配置
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass: true           # 类后大括号换行
+  AfterControlStatement: Never  # 控制语句（if/while/try/catch）后大括号不换行
+  AfterEnum: false
+  AfterFunction: true        # 函数后大括号换行
+  AfterNamespace: true       # 命名空间后大括号换行
+  AfterObjCDeclaration: false
+  AfterStruct: false
+  AfterUnion: false
+  BeforeCatch: true         # catch前换行
+  BeforeElse: true          # else前换行
+  IndentBraces: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
+
+# 继承和初始化列表设置
+BreakBeforeInheritanceComma: false
+BreakInheritanceList: BeforeColon
+BreakBeforeTernaryOperators: true
+BreakConstructorInitializers: BeforeColon
+BreakAfterJavaFieldAnnotations: false
+BreakStringLiterals: true
+
+# 行宽限制
+ColumnLimit: 0
+
+# 注释设置
+CommentPragmas: '^ IWYU pragma:'
+ReflowComments: true
+
+# 命名空间设置
+CompactNamespaces: false
+NamespaceIndentation: None
+
+# 缩进设置
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
+IndentCaseLabels: false
+IndentGotoLabels: true
+IndentWidth: 2              # 使用2空格缩进
+TabWidth: 2                 # 制表符宽度为2空格
+UseTab: Never               # 不使用制表符，使用空格
+
+# 预处理指令缩进设置
+IndentPPDirectives: AfterHash  # 预处理语句不缩进（#开头的行）
+# 当有嵌套的预处理指令时，使用BeforeHash会让嵌套的预处理指令缩进
+# AfterHash表示预处理指令从行首开始，不缩进
+
+# C++11 相关设置
+Cpp11BracedListStyle: true
+Standard: Cpp11
+
+# 指针对齐
+DerivePointerAlignment: false
+PointerAlignment: Right
+
+# 空行设置
+KeepEmptyLinesAtTheStartOfBlocks: true
+MaxEmptyLinesToKeep: 1
+
+# include 文件排序和分类
+IncludeBlocks: Preserve
+IncludeCategories:
+  - Regex:           '^"(llvm|llvm-c|clang|clang-c)/'
+    Priority:        2
+  - Regex:           '^(<|"(gtest|gmock|isl|json)/)'
+    Priority:        3
+  - Regex:           '.*'
+    Priority:        1
+IncludeIsMainRegex: '(Test)?$'
+SortIncludes: true
+SortUsingDeclarations: true
+
+# 空格设置
+SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
+SpaceAfterTemplateKeyword: true
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCpp11BracedList: false
+SpaceBeforeCtorInitializerColon: true
+SpaceBeforeInheritanceColon: true
+SpaceBeforeParens: ControlStatements
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceBeforeSquareBrackets: false
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 1
+SpacesInAngles: false
+SpacesInContainerLiterals: true
+SpacesInCStyleCastParentheses: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+
+# 其他设置
+ExperimentalAutoDetectBinPacking: false
+FixNamespaceComments: true
+MacroBlockBegin: ''
+MacroBlockEnd: ''
+ObjCBinPackProtocolList: Auto
+ObjCBlockIndentWidth: 2
+ObjCSpaceAfterProperty: false
+ObjCSpaceBeforeProtocolList: true
+
+# 换行惩罚系数（影响格式化决策）
+PenaltyBreakAssignment: 2
+PenaltyBreakBeforeFirstCallParameter: 19
+PenaltyBreakComment: 300
+PenaltyBreakFirstLessLess: 120
+PenaltyBreakString: 1000
+PenaltyBreakTemplateDeclaration: 10
+PenaltyExcessCharacter: 1000000
+PenaltyReturnTypeOnItsOwnLine: 60
+
+# 禁用格式化
+DisableFormat: false
