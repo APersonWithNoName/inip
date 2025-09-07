@@ -3,6 +3,7 @@
 
 #include "inip/IniMgr.hpp"
 #include "inip/Exception.hpp"
+#include "inip/Section.hpp"
 
 #include <string>
 #include <vector>
@@ -34,6 +35,11 @@ public:
   void clear();
   void write();
   void write(const std::string &file_name);
+
+  inip::Section operator[] (const std::string &sec);
+  inip::Section at(const std::string &sec);
+  std::size_t size();
+  std::size_t max_size();
 
 
   void set_bool(const std::string &secname, const std::string &key, const bool value);
@@ -83,7 +89,6 @@ public:
   {
     try {
       return fn(this->get(secname, key));
-      
     }
     catch (const inip::err::Errors &e) {
       throw e;

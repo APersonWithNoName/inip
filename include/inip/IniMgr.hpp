@@ -6,6 +6,7 @@
 
 #include <string>
 #include <fstream>
+#include <sstream>
 #include <vector>
 #include <map>
 
@@ -25,6 +26,7 @@ public:
   ~IniMgr();
   bool is_section_exists(const std::string &secname);
   bool line_filter(const std::string &input, std::string &output);
+  err::Errors parse_str(std::istringstream &iss);
   err::Errors parse_file();
 };
 

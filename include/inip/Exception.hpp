@@ -47,8 +47,8 @@ public:
   Errors(const ErrCode code, const unsigned int line = 0, const std::string &file_name = "");
   const char* what() const throw();
   int get_code();
+  void operator=(const inip::err::Errors &err);
 };
-
 
 }
 }

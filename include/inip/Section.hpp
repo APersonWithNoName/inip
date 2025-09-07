@@ -26,10 +26,17 @@ public:
   std::string get_name();
   void add(const std::string &key, const std::string &value);
   void set(const std::string &key, const std::string &value);
-  void clear();
-  bool empty();
   std::string to_string();
   std::vector<std::string> get_all_keys();
+
+  void clear();
+  bool empty();
+  inip::Node operator[] (const std::string &key);
+  inip::Node at(const std::string &key);
+  std::size_t size();
+  std::size_t max_size();
+  void erase(const std::string &key);
+
 };
 
 }

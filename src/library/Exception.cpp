@@ -20,3 +20,10 @@ int inip::err::Errors::get_code()
 {
   return static_cast<int>(this->code);
 }
+
+void inip::err::Errors::operator=(const inip::err::Errors &err)
+{
+  this->code = err.code;
+  this->line = err.line;
+  this->file_name = err.file_name;
+}

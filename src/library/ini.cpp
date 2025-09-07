@@ -153,6 +153,35 @@ void inip::ini::write(const std::string &file_name)
   fobj.clear();
 }
 
+inip::Section inip::ini::operator[](const std::string &sec)
+{
+  if (this->is_section_exists(sec)) {
+    return this->inimgr.data[sec];
+  }
+
+  inip::Section sec_obj(sec);
+  this->inimgr.data[sec] = sec_obj;
+  return sec_obj;
+}
+
+inip::Section inip::ini::at(const std::string &sec)
+{
+  if (this->is_section_exists(sec)) {
+    return this->inimgr.data[sec];
+  }
+  throw std::out_of_range("");
+}
+
+std::size_t inip::ini::size()
+{
+  return this->inimgr.data.size();
+}
+
+std::size_t inip::ini::max_size()
+{
+  return this->inimgr.data.max_size();
+}
+
 
 void inip::ini::set_bool(const std::string &secname, const std::string &key, const bool value)
 {

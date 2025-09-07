@@ -4,6 +4,7 @@
 
 #include <ios>
 #include <string>
+#include <sstream>
 
 inip::IniMgr::IniMgr(const std::string &file_name)
 {
@@ -57,7 +58,7 @@ bool inip::IniMgr::is_section_exists(const std::string &secname)
   return true;
 }
 
-inip::err::Errors inip::IniMgr::parse_file()
+inip::err::Errors inip::IniMgr::parse_str(std::istringstream &iss)
 {
   unsigned int linenum = 1;
   std::string linedata, _linedata, secname, key, value;
@@ -66,7 +67,7 @@ inip::err::Errors inip::IniMgr::parse_file()
   this->sec_list.push_back("");
   std::string::size_type linelen;
 
-  while (std::getline(this->file_obj, linedata))
+  while (std::getline(iss, linedata))
   {
     if(!this->line_filter(linedata, _linedata)) {
       linenum++;
@@ -213,4 +214,13 @@ inip::err::Errors inip::IniMgr::parse_file()
   }
 
   return inip::err::Errors(inip::err::ErrCode::NO_ERRORS, linenum, file_name);
+}
+
+inip::err::Errors inip::IniMgr::parse_file()
+{
+  if (!this->file_obj.is_open()) {
+#ifdef INIP_THROW_EXP_IF_ERROR
+    throw inip
+#endif
+  }
 }

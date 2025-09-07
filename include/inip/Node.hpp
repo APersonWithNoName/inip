@@ -11,11 +11,14 @@ private:
   std::string value;
 
 public:
-	Node();
+  Node();
   Node(const std::string &value);
   void set_value(const std::string &value);
   std::string get_value();
   std::string to_string();
+
+  std::string operator=(const std::string &value);
+  inip::Node operator=(const inip::Node &node);
 };
 
 }

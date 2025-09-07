@@ -32,13 +32,6 @@ inip::Node* inip::Section::get_node_ptr(const std::string &key)
 
 inip::Node inip::Section::get_node(const std::string &key)
 {
-  /*
-  auto ptr = this->get_node_ptr(key);
-  if (ptr == nullptr) {
-    throw inip::err::Errors(err::ErrCode::NO_SUCH_KEY);
-  }
-  return *ptr;
-  */
   try {
     return this->data.at(key);
   }
@@ -135,5 +128,39 @@ std::vector<std::string> inip::Section::get_all_keys()
   }
 
   return ret;
+}
+
+std::size_t inip::Section::size()
+{
+  return this->data.size();
+}
+
+std::size_t inip::Section::max_size()
+{
+  return this->data.max_size();
+}
+
+void inip::Section::erase(const std::string &key)
+{
+  this->data.erase(key);
+}
+
+inip::Node inip::Section::operator[] (const std::string &key)
+{
+  if (this->is_key_exist(key)) {
+    return this->data[key];
+  }
+
+  inip::Node node("");
+  this->data[key] = node;
+  return node;
+}
+
+inip::Node inip::Section::at(const std::string &key)
+{
+  if (this->is_key_exist(key)) {
+    return this->data[key];
+  }
+  throw std::out_of_range("");
 }
 
