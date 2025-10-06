@@ -42,12 +42,8 @@ inip::Node inip::Section::get_node(const std::string &key)
 
 std::string inip::Section::get_value(const std::string &key)
 {
-  try {
-    auto node = this->get_node(key);
-    return node.get_value();
-  } catch (const inip::err::Errors &e) {
-    throw inip::err::Errors(err::ErrCode::NO_SUCH_KEY);
-  }
+  auto node = this->get_node(key);
+  return node.get_value();
 }
 
 std::string inip::Section::get_value_default(const std::string &key, const std::string &def)
@@ -62,20 +58,22 @@ std::string inip::Section::get_value_default(const std::string &key, const std::
 
 void inip::Section::add(const std::string &key, const std::string &value)
 {
-#ifdef INIP_DISABLE_RRADD_NODE_KEY
+  // Key 存在
   if (this->is_key_exist(key)) {
+    // 允许重复添加
+#ifdef INIP_ALLOW_DUPLICATE_KEYS
+    // 重复添加时覆盖
+  #ifdef INIP_COVER_KEY_IF_EXIST
+    this->data[key] = value;
+  #endif
+#else
     throw inip::err::Errors(inip::err::ErrCode::KEY_EXISTS);
+#endif
   }
+  // 不存在直接构造
   else {
     this->data.emplace(key, value);
   }
-#else
-  #ifdef INIP_COVER_KEY_IF_EXIST
-    this->data[key] = value;
-  #else
-    this->data.emplace(key, value);
-  #endif
-#endif
 }
 
 void inip::Section::set(const std::string &key, const std::string &value)

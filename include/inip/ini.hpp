@@ -7,6 +7,7 @@
 
 #include <string>
 #include <vector>
+#include <sstream>
 #include <functional>
 
 namespace inip {
@@ -18,7 +19,10 @@ private:
 
 public:
   ini(const std::string &file_name);
+  err::Errors load_file(const std::string &file_name);
   err::Errors load_file();
+  err::Errors load_str(const std::string &str);
+  err::Errors load_str(std::stringstream &str);
   bool is_section_exists(const std::string &key);
   void add(const std::string &secname);
   void add(const std::string &key, const std::string &value);

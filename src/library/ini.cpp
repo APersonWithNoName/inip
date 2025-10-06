@@ -7,12 +7,34 @@
 #include "config.h"
 
 #include <fstream>
+#include <sstream>
+
 
 inip::ini::ini(const std::string &file_name) : inimgr(file_name) {}
 
+inip::err::Errors inip::ini::load_file(const std::string &file_name)
+{
+  this->clear();
+  return this->inimgr.parse_file(file_name);
+}
+
 inip::err::Errors inip::ini::load_file()
 {
-  return this->inimgr.parse_file();
+  this->clear();
+  return this->load_file(this->inimgr.file_name);
+}
+
+inip::err::Errors inip::ini::load_str(const std::string &str)
+{
+  std::istringstream iss(str);
+  return this->inimgr.parse_str(iss);
+}
+
+inip::err::Errors inip::ini::load_str(std::stringstream &str)
+{
+  this->clear();
+  std::istringstream iss(str.str());
+  return this->inimgr.parse_str(iss);
 }
 
 bool inip::ini::is_section_exists(const std::string &key)
@@ -85,12 +107,8 @@ std::string inip::ini::get(const std::string &secname, const std::string &key)
 {
   if (!this->is_section_exists(secname))
     throw inip::err::Errors(inip::err::ErrCode::NO_SUCH_KEY);
-  try {
-    return this->inimgr.data[secname].get_value(key);
-  }
-  catch (const inip::err::Errors &e) {
-    throw e;
-  }
+ 
+  return this->inimgr.data[secname].get_value(key);
 }
 
 std::string inip::ini::get(const std::string &key)
@@ -150,7 +168,11 @@ void inip::ini::write(const std::string &file_name)
   fobj.open(file_name, std::ios::in | std::ios::out);
   fobj << this->to_string() << std::endl;
   fobj.close();
-  fobj.clear();
+}
+
+void inip::ini::write()
+{
+  this->write(this->inimgr.file_name);
 }
 
 inip::Section inip::ini::operator[](const std::string &sec)

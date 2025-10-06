@@ -44,7 +44,7 @@ int main(int argc, char **argv)
 
       inip::ini ini(file_name);
 
-#ifndef INIP_THROW_EXP_IF_ERROR
+#ifdef INIP_THROW_EXP_IF_ERROR
       try {
         ini.load_file();
       }
@@ -60,12 +60,12 @@ int main(int argc, char **argv)
       }
 #endif
       if (action == "get") {
-        if (argc == 6) {
-          std::cout << ini.get_default(std::string(argv[4]), std::string(argv[5]));
+        if (argc == 5) {
+          std::cout << ini.get_default(std::string(argv[3]), std::string(argv[4]));
           return EXIT_SUCCESS;
         }
-        else if (argc == 7) {
-          std::cout << ini.get_default(std::string(argv[4]), std::string(argv[5]), std::string(argv[6]));
+        else if (argc == 6) {
+          std::cout << ini.get_default(std::string(argv[3]), std::string(argv[4]), std::string(argv[5]));
           return EXIT_SUCCESS;
         }
         else {
@@ -74,18 +74,18 @@ int main(int argc, char **argv)
         }
       }
       else if (action == "set") {
-        if (argc == 6) {
-          ini.set(std::string(argv[4]), std::string(argv[5]));
-          return EXIT_SUCCESS;
+        if (argc == 5) {
+          ini.set(std::string(argv[3]), std::string(argv[4]));
         }
-        else if (argc == 7) {
-          ini.set(std::string(argv[4]), std::string(argv[4]), std::string(argv[4]));
-          return EXIT_SUCCESS;
+        else if (argc == 6) {
+          ini.set(std::string(argv[3]), std::string(argv[4]), std::string(argv[5]));
         }
         else {
           print_help(program);
           return EXIT_FAILURE;
         }
+        ini.write();
+        return EXIT_SUCCESS;
       }
       else {
         print_help(program);
