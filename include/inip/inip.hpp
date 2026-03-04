@@ -3,14 +3,18 @@
 
 #define __INIP_HPP_INSIDE__
 
-#include "inip/Tools.hpp"
+#include "inip/Tools.hpp"      // IWYU pragma: export
 
-#include "inip/Node.hpp"
+#include "inip/Node.hpp"      // IWYU pragma: export
 
-#include "inip/Section.hpp"
+#include "inip/Section.hpp"   // IWYU pragma: export
 
-#include "inip/IniMgr.hpp"
+#include "inip/IniMgr.hpp"    // IWYU pragma: export
 
-#include "inip/ini.hpp"
+#include "inip/ini.hpp"       // IWYU pragma: export
+
+#include "inip/Exception.hpp" // IWYU pragma: export
+
+#include "inip/Types.hpp"     // IWYU pragma: export
 
 #endif

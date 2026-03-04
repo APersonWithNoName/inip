@@ -18,8 +18,8 @@
 ## 第二节：构建
 
 ### 先决条件
-- cmake 可用，版本 __3.10__ 以上
-- c++ 编译器可用，且支持 __C++11__ 标准
+- cmake 可用,版本 __3.10__ 以上
+- c++编译器可用,且支持 __C++11__ 标准
 ### 编译
 #### Windows
 ```shell
@@ -35,13 +35,13 @@ cmake ..
 #### 其他平台
 请参见 [CMake文档](https://cmake.org/documentation/)。
 #### 可选配置
-关于 CMake 构建时的 `-D type=value` 选项，请参见 [源码](./src/config/config.h.in) 或 [项目文档](./doc/build.md)。
+CMake 构建时的 `-Dtype=value` 选项,请参见 [源码](./CMakeLists.txt) 或 [项目文档](./doc/zh/build.md)。
 
 --- 
 ## 第三节：使用
 - 在源码中引入 `inip/inip.hpp`
 - 链接 `inip` 库
-- __注：__ 仅 __`inip/inip.hpp`__ 头文件可以被直接包含！
+- __注：__ __`inip/inip.hpp`__ 头文件可以被直接包含, 其余头文件是否包含任意, 但不推荐
 ### 最小示例
 ``` cpp
 #include "inip/inip.hpp"
@@ -60,7 +60,3 @@ int main(int argc, char **argv)
     return 0;
 }
 ```
-
-
---- 
-## 第四节：接口

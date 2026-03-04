@@ -1,7 +1,7 @@
 # 基于 LLVM 代码风格
-BasedOnStyle: Google
+BasedOnStyle: LLVM
 
-# 访问修饰符（private/public）的缩进偏移量，0表示不缩进
+# 访问修饰符(private/public)的缩进偏移量,0表示不缩进
 AccessModifierOffset: 0
 
 # 括号对齐设置
@@ -28,7 +28,7 @@ BreakBeforeBinaryOperators: NonAssignment
 BreakBeforeBraces: Custom
 BraceWrapping:
   AfterClass: true           # 类后大括号换行
-  AfterControlStatement: Never  # 控制语句（if/while/try/catch）后大括号不换行
+  AfterControlStatement: Never  # 控制语句(if/while/try/catch)后大括号不换行
   AfterEnum: false
   AfterFunction: true        # 函数后大括号换行
   AfterNamespace: true       # 命名空间后大括号换行
@@ -68,12 +68,12 @@ IndentCaseLabels: false
 IndentGotoLabels: true
 IndentWidth: 2              # 使用2空格缩进
 TabWidth: 2                 # 制表符宽度为2空格
-UseTab: Never               # 不使用制表符，使用空格
+UseTab: Never               # 不使用制表符,使用空格
 
 # 预处理指令缩进设置
-IndentPPDirectives: AfterHash  # 预处理语句不缩进（#开头的行）
-# 当有嵌套的预处理指令时，使用BeforeHash会让嵌套的预处理指令缩进
-# AfterHash表示预处理指令从行首开始，不缩进
+IndentPPDirectives: AfterHash  # 预处理语句不缩进(#开头的行)
+# 当有嵌套的预处理指令时,使用BeforeHash会让嵌套的预处理指令缩进
+# AfterHash表示预处理指令从行首开始,不缩进
 
 # C++11 相关设置
 Cpp11BracedListStyle: true
@@ -129,7 +129,7 @@ ObjCBlockIndentWidth: 2
 ObjCSpaceAfterProperty: false
 ObjCSpaceBeforeProtocolList: true
 
-# 换行惩罚系数（影响格式化决策）
+# 换行惩罚系数(影响格式化决策)
 PenaltyBreakAssignment: 2
 PenaltyBreakBeforeFirstCallParameter: 19
 PenaltyBreakComment: 300

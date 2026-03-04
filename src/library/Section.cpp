@@ -1,36 +1,24 @@
 #include "inip/Section.hpp"
 #include "inip/Exception.hpp"
-#include "config.h"
 
 #include <sstream>
 #include <stdexcept>
 
-inip::Section::Section() : name("") {};
+inip::Section::Section() : name(""), line(0) {};
 
-inip::Section::Section(const std::string &name, const std::map<std::string, Node> &data)
+inip::Section::Section(const std::string &name, const std::map<std::string, Node> &data, const inip::Types::LineNum line)
 {
   this->data = data;
   this->name = name;
+  this->line = line;
 }
 
-bool inip::Section::is_key_exist(const std::string &key)
+bool inip::Section::contains(const std::string &key) const
 {
-  auto it = this->data.find(key);
-  if (it != this->data.end())
-    return true;
-  return false;
+  return this->data.find(key) != this->data.end();
 }
 
-inip::Node* inip::Section::get_node_ptr(const std::string &key)
-{
-  auto it = this->data.find(key);
-  if (it != this->data.end()) {
-    return &(it->second);
-  }
-  return nullptr;
-}
-
-inip::Node inip::Section::get_node(const std::string &key)
+inip::Node inip::Section::get_node(const std::string &key) const
 {
   try {
     return this->data.at(key);
@@ -40,13 +28,13 @@ inip::Node inip::Section::get_node(const std::string &key)
   }
 }
 
-std::string inip::Section::get_value(const std::string &key)
+std::string inip::Section::get_value(const std::string &key) const
 {
   auto node = this->get_node(key);
   return node.get_value();
 }
 
-std::string inip::Section::get_value_default(const std::string &key, const std::string &def)
+std::string inip::Section::get_value_def(const std::string &key, const std::string &def) const
 {
   try {
     return this->get_value(key);
@@ -56,23 +44,23 @@ std::string inip::Section::get_value_default(const std::string &key, const std::
   }
 }
 
-void inip::Section::add(const std::string &key, const std::string &value)
+void inip::Section::set_line(const inip::Types::LineNum line)
 {
-  // Key 存在
-  if (this->is_key_exist(key)) {
-    // 允许重复添加
-#ifdef INIP_ALLOW_DUPLICATE_KEYS
-    // 重复添加时覆盖
-  #ifdef INIP_COVER_KEY_IF_EXIST
-    this->data[key] = value;
-  #endif
-#else
-    throw inip::err::Errors(inip::err::ErrCode::KEY_EXISTS);
-#endif
+  this->line = line;
+}
+
+void inip::Section::set(const std::string &key, const std::string &value, inip::Types::LineNum line)
+{
+  auto it = this->data.find(key);
+  // 已存在,设置值和行号
+  if (!(it == this->data.end())) {
+    it->second = value;
+    it->second.set_line(line);
   }
-  // 不存在直接构造
-  else {
-    this->data.emplace(key, value);
+  else{
+    inip::Node node(value);
+    node.set_line(line);
+    this->data[key] = node;
   }
 }
 
@@ -81,25 +69,42 @@ void inip::Section::set(const std::string &key, const std::string &value)
   this->data[key] = value;
 }
 
-void inip::Section::clear()
+void inip::Section::clear(const bool clear_name)
 {
   this->data.clear();
-#ifdef INIP_SECTION_CLEAR_NAME
-  this->name.clear();
-#endif
+  if (clear_name) {
+    this->name.clear();
+    this->line = 0;
+  }
 }
 
-bool inip::Section::empty()
+
+void inip::Section::insert(const std::string &key, const Node &node)
+{
+  this->data[key] = node;
+}
+
+void inip::Section::set_name(const std::string &name)
+{
+  this->name = name;
+}
+
+bool inip::Section::empty() const
 {
   return this->data.empty();
 }
 
-std::string inip::Section::get_name()
+std::string inip::Section::get_name() const
 {
   return this->name;
 }
 
-std::string inip::Section::to_string()
+inip::Types::LineNum inip::Section::get_line() const
+{
+  return this->line;
+}
+
+std::string inip::Section::to_string() const
 {
   std::stringstream ret;
 
@@ -111,29 +116,18 @@ std::string inip::Section::to_string()
   }
   
   for (auto it = this->data.begin(); it != this->data.end(); it++) {
-    ret << it->first << "=" << it->second.get_value() << "\n";
+    ret << it->first << " = " << it->second.get_value() << "\n";
   }
 
   return ret.str();
 }
 
-std::vector<std::string> inip::Section::get_all_keys()
-{
-  std::vector<std::string> ret;
-
-  for (auto it = this->data.begin(); it != this->data.end(); it++) {
-    ret.push_back(it->first);
-  }
-
-  return ret;
-}
-
-std::size_t inip::Section::size()
+std::size_t inip::Section::size() const
 {
   return this->data.size();
 }
 
-std::size_t inip::Section::max_size()
+std::size_t inip::Section::max_size() const
 {
   return this->data.max_size();
 }
@@ -143,22 +137,32 @@ void inip::Section::erase(const std::string &key)
   this->data.erase(key);
 }
 
-inip::Node inip::Section::operator[] (const std::string &key)
+inip::Node& inip::Section::operator[] (const std::string &key)
 {
-  if (this->is_key_exist(key)) {
-    return this->data[key];
-  }
-
-  inip::Node node("");
-  this->data[key] = node;
-  return node;
+  return this->data[key];
 }
 
-inip::Node inip::Section::at(const std::string &key)
+inip::Node& inip::Section::at(const std::string &key)
 {
-  if (this->is_key_exist(key)) {
-    return this->data[key];
+  auto it = data.find(key);
+  if (it == data.end()) {
+    throw inip::err::Errors(inip::err::ErrCode::NO_SUCH_KEY);
   }
-  throw std::out_of_range("");
+  return it->second;
 }
 
+const inip::Node& inip::Section::at(const std::string &key) const
+{
+  auto it = data.find(key);
+  if (it == data.end()) {
+    throw inip::err::Errors(inip::err::ErrCode::NO_SUCH_KEY);
+  }
+  return it->second;
+}
+
+inip::Section::iterator inip::Section::begin() { return this->data.begin(); }
+inip::Section::iterator inip::Section::end() { return this->data.end(); }
+inip::Section::const_iterator inip::Section::begin() const { return this->data.begin(); }
+inip::Section::const_iterator inip::Section::end() const { return this->data.end(); }
+inip::Section::const_iterator inip::Section::cbegin() const { return this->data.cbegin(); }
+inip::Section::const_iterator inip::Section::cend() const { return this->data.cend(); }

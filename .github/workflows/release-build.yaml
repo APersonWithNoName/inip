@@ -1,0 +1,195 @@
+name: Release Build
+
+permissions:
+  contents: write
+  actions: read
+  checks: read
+  pull-requests: read
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    #if: contains(github.event.head_commit.message, 'Release v') && contains(github.event.head_commit.message, 'Merge development into main')
+    if: contains(github.event.head_commit.message, 'Release v')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.ACTION_PAT }}
+
+      - name: Extract version from commit message
+        id: extract_version
+        run: |
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+          echo "Commit message: $COMMIT_MSG"
+
+          # 从 "Release v1.0.8: Merge development into main" 中提取版本
+          VERSION=$(echo "$COMMIT_MSG" | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+
+          if [ -n "$VERSION" ]; then
+            echo "VERSION=$VERSION" >> $GITHUB_ENV
+            echo "BRANCH=release/$VERSION" >> $GITHUB_ENV
+            echo "Found version: $VERSION"
+          else
+            echo "No version found in commit message, skipping..."
+            exit 78
+          fi
+
+      - name: Display release info
+        run: |
+          echo "Building release for tag: ${{ env.VERSION }}"
+          echo "Using branch: ${{ env.BRANCH }}"
+          echo "Current directory: $(pwd)"
+        env:
+          VERSION: ${{ env.VERSION }}
+          BRANCH: ${{ env.BRANCH }}
+
+      - name: Setup build environment
+        run: |
+          sudo apt-get update
+          
+          sudo apt-get install -y \
+            build-essential gcc g++ make cmake git wget curl pkg-config
+
+          sudo apt-get install -y \
+            gcc-multilib g++-multilib libc6-dev-i386 lib32stdc++-dev
+
+          sudo apt-get install -y \
+            gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu libc6-dev-arm64-cross
+          
+          sudo apt-get install -y \
+            gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabihf libc6-dev-armhf-cross
+
+          sudo apt-get install -y \
+            gcc-x86-64-linux-gnu g++-x86-64-linux-gnu binutils-x86-64-linux-gnu libc6-dev-amd64-cross
+          
+          sudo apt-get install -y \
+            gcc-i686-linux-gnu g++-i686-linux-gnu binutils-i686-linux-gnu libc6-dev-i386-cross
+
+          sudo apt-get install -y \
+            gcc-riscv64-linux-gnu g++-riscv64-linux-gnu binutils-riscv64-linux-gnu libc6-dev-riscv64-cross
+
+          sudo apt-get install -y \
+            mingw-w64 mingw-w64-tools \
+            gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64 \
+            gcc-mingw-w64-i686 g++-mingw-w64-i686 \
+            binutils-mingw-w64-x86-64 binutils-mingw-w64-i686
+
+          sudo apt-get install -y \
+            libwinpthread1-mingw-w64 libwinpthread1-mingw-w64-dev \
+            libwinpthread1-mingw-w64-32bit libwinpthread1-mingw-w64-64bit \
+            mingw-w64-common \
+            mingw-w64-x86-64-dev mingw-w64-i686-dev
+
+
+      - name: Simulate build project
+        run: |
+          python3 build.py --configfile=build.ini -C . | tee build.log
+          find dist -type f -exec sha256sum {} \; > sha256sum
+          ls -la dist
+        env:
+          VERSION: ${{ env.VERSION }}
+
+      - name: Simulate run tests
+        run: |
+          echo "No test needed."
+        env:
+          VERSION: ${{ env.VERSION }}
+
+      - name: Generate release notes
+        run: |
+          echo "Generating release notes..."
+
+          git fetch --tags
+          PREV_TAG=$(git describe --tags --abbrev=0 ${{ env.VERSION }}^ 2>/dev/null || echo "")
+
+          if [ -n "$PREV_TAG" ]; then
+            LOG_RANGE="$PREV_TAG..${{ env.VERSION }}"
+            echo "Previous tag: $PREV_TAG"
+          else
+            LOG_RANGE="${{ env.VERSION }}"
+            echo "First release"
+          fi
+
+          cat > release_notes.md << EOF
+          ## Release ${{ env.VERSION }}
+          ### 自动构建信息
+          - **版本**: ${{ env.VERSION }}
+          - **构建时间**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          - **触发分支**: main
+          - **触发方式**: ${{ github.event_name }}
+          ### 变更内容
+          $(git log --pretty=format:"- %s" $LOG_RANGE 2>/dev/null || echo "- Initial release")
+          EOF
+
+          echo "----------------------------"
+          cat release_notes.md
+          echo "----------------------------"
+        env:
+          VERSION: ${{ env.VERSION }}
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ env.VERSION }}
+          path: |
+            dist/
+            build.log
+            sha256sum
+            release_notes.md
+          retention-days: 7
+          if-no-files-found: warn
+          compression-level: 6
+        env:
+          VERSION: ${{ env.VERSION }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.VERSION }}
+          name: Release ${{ env.VERSION }}
+          body_path: release_notes.md
+          files: |
+            dist/*
+            build.log
+            sha256sum
+            release_notes.md
+          draft: false
+          prerelease: ${{ contains(env.VERSION, '-beta') || contains(env.VERSION, '-alpha') || contains(env.VERSION, '-rc') }}
+          generate_release_notes: false
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTION_PAT }}
+          VERSION: ${{ env.VERSION }}
+
+      - name: Post-release summary
+        if: success()
+        run: |
+          echo "Release simulation completed successfully!"
+          echo "==================================================="
+          echo "Release: ${{ env.VERSION }}"
+          echo "Branch: ${{ env.BRANCH }}"
+          echo "Time: $(date)"
+          echo "==================================================="
+          echo ""
+          echo "Artifacts uploaded:"
+          ls -la dist/ build.log sha256sum 2>/dev/null || echo "No artifacts found"
+        env:
+          VERSION: ${{ env.VERSION }}
+          BRANCH: ${{ env.BRANCH }}
+
+      - name: Handle failure
+        if: failure()
+        run: |
+          echo "Release simulation failed"
+          echo "Version: ${{ env.VERSION }}"
+          exit 1
+        env:
+          VERSION: ${{ env.VERSION }}

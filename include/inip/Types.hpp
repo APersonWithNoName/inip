@@ -8,6 +8,14 @@ namespace inip {
 
 namespace Types {
 
+enum class LineType {
+  EMPTY,
+  SECNAME,
+  NODE,
+};
+
+typedef unsigned long long LineNum;
+
 auto bool2str(const bool b) -> std::string;
 auto str2bool(const std::string &s) -> bool;
 

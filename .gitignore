@@ -129,6 +129,9 @@ latex/
 *.backup
 *.swp
 *.swo
+*.BK
+BK.*
+BK_
 
 # 操作系统生成的文件
 .DS_Store
@@ -146,8 +149,13 @@ Thumbs.db
 
 # 版本控制系统
 
-# 项目特定排除（根据需要取消注释）
+# 项目特定排除(根据需要取消注释)
 build/
+build1/
+dist/
+*.build/
+*.install/
+.*history
 bin/
 lib/
 include/generated/
@@ -155,7 +163,7 @@ include/generated/
 *.rej
 compile_commands.json
 
-# 本地配置文件（通常包含敏感信息或本地设置）
+# 本地配置文件(通常包含敏感信息或本地设置)
 local.properties
 local.config
 .env
