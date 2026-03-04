@@ -4,88 +4,68 @@
 #include "inip/Section.hpp"
 #include "inip/Exception.hpp"
 
-#include "config.h"
-
 #include <fstream>
 #include <sstream>
 
-
 inip::ini::ini(const std::string &file_name) : inimgr(file_name) {}
 
-inip::err::Errors inip::ini::load_file(const std::string &file_name)
+inip::err::Errors inip::ini::load_file(const std::string &file_name,
+  std::vector<inip::err::Errors> &err_list, const bool failed_skip,
+  const bool use_import, const bool import_cover_sec_if_exist,
+  const bool allow_duplicate_sec, const bool cover_sec_if_exist,
+  const bool allow_duplicate_keys, const bool cover_key_if_exist)
 {
   this->clear();
-  return this->inimgr.parse_file(file_name);
+  return this->inimgr.parse_file(file_name, err_list, failed_skip, use_import, import_cover_sec_if_exist, allow_duplicate_sec, cover_sec_if_exist, allow_duplicate_keys, cover_key_if_exist);
 }
 
-inip::err::Errors inip::ini::load_file()
+inip::err::Errors inip::ini::load_file(std::vector<inip::err::Errors> &err_list, const bool failed_skip,
+  const bool use_import, const bool import_cover_sec_if_exist,
+  const bool allow_duplicate_sec, const bool cover_sec_if_exist,
+  const bool allow_duplicate_keys, const bool cover_key_if_exist)
 {
   this->clear();
-  return this->load_file(this->inimgr.file_name);
+  return this->load_file(this->inimgr.file_name, err_list, failed_skip, use_import, import_cover_sec_if_exist, allow_duplicate_sec, cover_sec_if_exist, allow_duplicate_keys, cover_key_if_exist);
 }
 
-inip::err::Errors inip::ini::load_str(const std::string &str)
+inip::err::Errors inip::ini::load_str(const std::string &str,
+  std::vector<inip::err::Errors> &err_list, const bool failed_skip,
+  const bool use_import, const bool import_cover_sec_if_exist,
+  const bool allow_duplicate_sec, const bool cover_sec_if_exist,
+  const bool allow_duplicate_keys, const bool cover_key_if_exist)
 {
   std::istringstream iss(str);
-  return this->inimgr.parse_str(iss);
+  return this->inimgr.parse_str(iss, err_list, failed_skip, use_import, import_cover_sec_if_exist, allow_duplicate_sec, cover_sec_if_exist, allow_duplicate_keys, cover_key_if_exist);
 }
 
-inip::err::Errors inip::ini::load_str(std::stringstream &str)
+inip::err::Errors inip::ini::load_sstr(std::stringstream &str,
+  std::vector<inip::err::Errors> &err_list, const bool failed_skip,
+  const bool use_import, const bool import_cover_sec_if_exist,
+  const bool allow_duplicate_sec, const bool cover_sec_if_exist,
+  const bool allow_duplicate_keys, const bool cover_key_if_exist)
 {
   this->clear();
   std::istringstream iss(str.str());
-  return this->inimgr.parse_str(iss);
+  return this->inimgr.parse_str(iss, err_list, failed_skip, use_import, import_cover_sec_if_exist, allow_duplicate_sec, cover_sec_if_exist, allow_duplicate_keys, cover_key_if_exist);
 }
 
-bool inip::ini::is_section_exists(const std::string &key)
+bool inip::ini::contains(const std::string &key) const
 {
-  if (this->inimgr.data.find(key) == this->inimgr.data.end()) {
+  return this->inimgr.data.find(key) != this->inimgr.data.end();
+}
+
+bool inip::ini::exist_key(const std::string &secname, const std::string &key) const
+{
+  if (this->contains(secname)) {
+    if (this->inimgr.data.at(secname).contains(key)) return true;
     return false;
   }
-  return true;
+  return false;
 }
 
-void inip::ini::add(const std::string &secname)
+bool inip::ini::exist_key(const std::string &key) const
 {
-#ifdef INIP_DISABLE_APPEND_SECTION
-  if (this->is_section_exists(secname)) {
-    throw inip::err::Errors(inip::err::ErrCode::SEC_EXISTS);
-  }
-#else
-  if (!this->is_section_exists(secname)) {
-    this->inimgr.data[secname] = inip::Section(secname, {});
-  }
-#endif
-}
-
-void inip::ini::add(const std::string &secname, const std::string &key, const std::string &value)
-{
-  if (!this->is_section_exists(secname)) {
-    this->inimgr.data[secname] = inip::Section(secname, {});
-  }
-#ifdef INIP_DISABLE_RRADD_NODE_KEY
-  if (this->inimgr.data[secname].is_key_exist(key)) {
-    throw inip::err::Errors(inip::err::ErrCode::KEY_EXISTS);
-  }
-#else
-  #ifdef INIP_COVER_KEY_IF_EXIST
-    this->inimgr.data[secname].set(key, value);
-  #else
-    if (!this->inimgr.data[secname].is_key_exist(key)) {
-      this->inimgr.data[secname].set(key, value);
-    }
-  #endif
-#endif
-}
-
-void inip::ini::add(const std::string &key, const std::string &value)
-{
-  try {
-    this->add("", key, value);
-  }
-  catch (const inip::err::Errors &e) {
-    throw e;
-  }
+  return this->exist_key("", key);
 }
 
 void inip::ini::set(const std::string &secname)
@@ -95,7 +75,7 @@ void inip::ini::set(const std::string &secname)
 
 void inip::ini::set(const std::string &key, const std::string &value)
 {
-  this->add("", key, value);
+  this->set("", key, value);
 }
 
 void inip::ini::set(const std::string &secname, const std::string &key, const std::string &value)
@@ -103,15 +83,15 @@ void inip::ini::set(const std::string &secname, const std::string &key, const st
   this->inimgr.data[secname].set(key, value);
 }
 
-std::string inip::ini::get(const std::string &secname, const std::string &key)
+std::string inip::ini::get(const std::string &secname, const std::string &key) const
 {
-  if (!this->is_section_exists(secname))
-    throw inip::err::Errors(inip::err::ErrCode::NO_SUCH_KEY);
+  if (!this->exist_key(secname, key))
+    throw inip::err::Errors(inip::err::ErrCode::NO_SUCH_KEY, 0, this->inimgr.file_name);
  
-  return this->inimgr.data[secname].get_value(key);
+  return this->inimgr.data.at(secname).get_value(key);
 }
 
-std::string inip::ini::get(const std::string &key)
+std::string inip::ini::get(const std::string &key) const
 {
   try {
     return this->get("", key);
@@ -121,7 +101,7 @@ std::string inip::ini::get(const std::string &key)
   }
 }
 
-std::string inip::ini::get_default(const std::string &secname, const std::string &key, const std::string &def)
+std::string inip::ini::get_default(const std::string &secname, const std::string &key, const std::string &def) const
 {
   try {
     return this->get(secname, key);
@@ -131,29 +111,29 @@ std::string inip::ini::get_default(const std::string &secname, const std::string
   }
 }
 
-std::string inip::ini::get_default(const std::string &key, const std::string &def)
+inip::Section inip::ini::get_section(const std::string &secname)
+{
+  if (!this->contains(secname))
+    throw inip::err::Errors(inip::err::ErrCode::NO_SUCH_SECTION, 0, this->inimgr.file_name);
+
+  return this->inimgr.data.at(secname);
+}
+
+std::string inip::ini::get_default(const std::string &key, const std::string &def) const
 {
   return this->get_default("", key, def);
 }
 
-std::vector<std::string> inip::ini::get_all_sec()
-{
-  std::vector<std::string> ret;
-  for (auto i = this->inimgr.data.begin(); i != this->inimgr.data.end(); i++) {
-    ret.push_back(i->first);
-  }
-  return ret;
-}
 
-void inip::ini::clear()
+void inip::ini::clear(const bool clear_name)
 {
   this->inimgr.data.clear();
-#ifdef INIP_INI_CLEAR_NAME
-  this->inimgr.file_name.clear();
-#endif
+  if (clear_name) {
+    this->inimgr.file_name.clear();
+  }
 }
 
-std::string inip::ini::to_string()
+std::string inip::ini::to_string() const
 {
   std::string ret;
   for (auto i = this->inimgr.data.begin(); i != this->inimgr.data.end(); i++) {
@@ -165,7 +145,7 @@ std::string inip::ini::to_string()
 void inip::ini::write(const std::string &file_name)
 {
   std::fstream fobj;
-  fobj.open(file_name, std::ios::in | std::ios::out);
+  fobj.open(file_name, std::ios::out | std::ios::trunc);
   fobj << this->to_string() << std::endl;
   fobj.close();
 }
@@ -175,31 +155,43 @@ void inip::ini::write()
   this->write(this->inimgr.file_name);
 }
 
-inip::Section inip::ini::operator[](const std::string &sec)
+inip::Section& inip::ini::operator[](const std::string &sec)
 {
-  if (this->is_section_exists(sec)) {
-    return this->inimgr.data[sec];
-  }
-
-  inip::Section sec_obj(sec);
-  this->inimgr.data[sec] = sec_obj;
-  return sec_obj;
+  return this->inimgr.data[sec];
 }
 
-inip::Section inip::ini::at(const std::string &sec)
+inip::ini& inip::ini::operator=(const ini &ini_obj)
 {
-  if (this->is_section_exists(sec)) {
-    return this->inimgr.data[sec];
+  if (this != &ini_obj) {
+    this->inimgr.data = ini_obj.inimgr.data;
+    this->inimgr.file_name = ini_obj.inimgr.file_name;
+    this->inimgr.sec_list = ini_obj.inimgr.sec_list;
   }
-  throw std::out_of_range("");
+  return *this;
 }
 
-std::size_t inip::ini::size()
+inip::Section& inip::ini::at(const std::string &sec)
+{
+  auto it = this->inimgr.data.find(sec);
+  if (it == this->inimgr.data.end())
+    throw inip::err::Errors(inip::err::ErrCode::NO_SUCH_SECTION);
+  return this->inimgr.data.at(sec);
+}
+
+const inip::Section& inip::ini::at(const std::string &sec) const
+{
+  auto it = this->inimgr.data.find(sec);
+  if (it == this->inimgr.data.end())
+    throw inip::err::Errors(inip::err::ErrCode::NO_SUCH_SECTION);
+  return this->inimgr.data.at(sec);
+}
+
+std::size_t inip::ini::size() const
 {
   return this->inimgr.data.size();
 }
 
-std::size_t inip::ini::max_size()
+std::size_t inip::ini::max_size() const
 {
   return this->inimgr.data.max_size();
 }
@@ -260,64 +252,6 @@ long inip::ini::get_long_def(const std::string &secname, const std::string &key,
 {
   return this->get_value_def<long>(secname, key, inip::Types::str2long, def);
 }
-
-
-void inip::ini::set_ulong(const std::string &secname, const std::string &key, const unsigned long value)
-{
-  this->set_value<unsigned long>(secname, key, value, inip::Types::__num2string<unsigned long>);
-}
-unsigned long inip::ini::get_ulong(const std::string &secname, const std::string &key)
-{
-  try {
-    return this->get_value<unsigned long>(secname, key, inip::Types::str2ulong);
-  }
-  catch(inip::err::Errors &e) {
-    throw e;
-  }
-}
-unsigned long inip::ini::get_ulong_def(const std::string &secname, const std::string &key, const unsigned long def)
-{
-  return this->get_value_def<unsigned long>(secname, key, inip::Types::str2ulong, def);
-}
-
-
-void inip::ini::set_longlong(const std::string &secname, const std::string &key, const long long value)
-{
-  this->set_value<long long>(secname, key, value, inip::Types::__num2string<long long>);
-}
-long long inip::ini::get_longlong(const std::string &secname, const std::string &key)
-{
-  try {
-    return this->get_value<long long>(secname, key, inip::Types::str2longlong);
-  }
-  catch(inip::err::Errors &e) {
-    throw e;
-  }
-}
-long long inip::ini::get_longlong_def(const std::string &secname, const std::string &key, const long long def)
-{
-  return this->get_value_def<long long>(secname, key, inip::Types::str2longlong, def);
-}
-
-
-void inip::ini::set_ulonglong(const std::string &secname, const std::string &key, const unsigned long long value)
-{
-  this->set_value<unsigned long long>(secname, key, value, inip::Types::__num2string<unsigned long long>);
-}
-unsigned long long inip::ini::get_ulonglong(const std::string &secname, const std::string &key)
-{
-  try {
-    return this->get_value<unsigned long long>(secname, key, inip::Types::str2ulonglong);
-  }
-  catch(inip::err::Errors &e) {
-    throw e;
-  }
-}
-unsigned long long inip::ini::get_ulonglong_def(const std::string &secname, const std::string &key, const unsigned long long def)
-{
-  return this->get_value_def<unsigned long long>(secname, key, inip::Types::str2ulonglong, def);
-}
-
 
 void inip::ini::set_double(const std::string &secname, const std::string &key, const double value)
 {

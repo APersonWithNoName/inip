@@ -24,35 +24,71 @@ auto inip::Types::str2bool(const std::string &s) -> bool
 
 auto inip::Types::str2int(const std::string &s) -> int
 {
-  return std::stoi(s);
+  try{
+    return std::stoi(s);
+  }
+  catch(...) {
+    throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
+  }
 }
 
 auto inip::Types::str2long(const std::string &s) -> long
 {
-  return std::stol(s);
+  try {
+    return std::stol(s);
+  }
+  catch (...) {
+    throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
+  }
 }
 
 auto inip::Types::str2ulong(const std::string &s) -> unsigned long
 {
-  return std::stoul(s);
+  try {
+    return std::stoul(s);
+  }
+  catch (...) {
+    throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
+  }
 }
 
 auto inip::Types::str2longlong(const std::string &s) -> long long
 {
+  try {
   return std::stoll(s);
+  }
+  catch (...) {
+    throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
+  }
 }
 
 auto inip::Types::str2ulonglong(const std::string &s) -> unsigned long long
 {
-  return std::stoull(s);
+  try {
+    return std::stoull(s);
+  }
+  catch (...) {
+    throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
+  }
 }
 
 auto inip::Types::str2float(const std::string &s) -> float
 {
-  return std::stof(s);
+  try {
+    return std::stof(s);
+  }
+  catch (...) {
+    throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
+  }
 }
 
 auto inip::Types::str2double(const std::string &s) -> double
 {
-  return std::stod(s);
+  try {
+    return std::stod(s);
+  }
+  catch (...) {
+    throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
+  }
 }
+

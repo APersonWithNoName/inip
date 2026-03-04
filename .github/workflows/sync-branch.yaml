@@ -1,0 +1,102 @@
+name: Sync development to main
+
+on:
+  push:
+    branches:
+      - development
+    tags:
+      - "v*.*.*"
+
+# 设置必要的权限
+permissions:
+  actions: write
+  contents: write
+  checks: write
+  pull-requests: write
+
+jobs:
+  sync_to_main:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.ACTION_PAT }}
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Get tag name
+        id: get_tag
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+          echo "RELEASE_BRANCH=release/${TAG_NAME}" >> $GITHUB_ENV
+
+      - name: Sync development to main with merge commit
+        run: |
+          echo "Syncing development to main for tag: ${{ env.TAG_NAME }}"
+
+          git fetch origin development
+          git fetch origin main
+
+          git checkout main
+          git pull origin main
+
+          # 使用 --no-ff 强制创建 merge commit
+          git merge --no-ff origin/development -m "Release ${{ env.TAG_NAME }}: Merge development into main"
+
+          git push origin main
+
+          echo "Main branch updated with merge commit"
+        env:
+          TAG_NAME: ${{ env.TAG_NAME }}
+        
+      - name: Verify merge commit
+        run: |
+          echo "Verifying main branch after merge:"
+          git fetch origin main
+          git log -1 origin/main --pretty=format:"%h - %s"
+          echo ""
+    
+          # 检查是否包含 "Release v"
+          COMMIT_MSG=$(git log -1 origin/main --pretty=%B)
+          if [[ "$COMMIT_MSG" == *"Release v"* ]]; then
+            echo "Commit message contains 'Release v'"
+          else
+            echo "Commit message does NOT contain 'Release v'"
+            echo "Actual message: $COMMIT_MSG"
+          fi
+
+      - name: Create release branch
+        run: |
+          BRANCH_NAME="${{ env.RELEASE_BRANCH }}"
+          echo "Creating release branch: $BRANCH_NAME"
+
+          # 检查分支是否已存在
+          if git ls-remote --heads origin $BRANCH_NAME | grep -q $BRANCH_NAME; then
+            echo "Branch $BRANCH_NAME already exists, updating..."
+            git push origin --force refs/tags/${{ env.TAG_NAME }}:refs/heads/$BRANCH_NAME
+          else
+            git checkout -b $BRANCH_NAME refs/tags/${{ env.TAG_NAME }}
+            git push origin $BRANCH_NAME
+          fi
+          echo "Release branch created"
+        env:
+          RELEASE_BRANCH: ${{ env.RELEASE_BRANCH }}
+          TAG_NAME: ${{ env.TAG_NAME }}
+
+      - name: Setup GitHub CLI
+        run: |
+          # GitHub CLI 在 ubuntu-latest 上默认已安装
+          # 但如果需要最新版本，可以更新
+          gh --version
+
+          # 验证认证状态
+          echo "GitHub CLI auth status:"
+          gh auth status || true
