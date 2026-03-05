@@ -314,7 +314,6 @@ class CMakeTargetBuilder:
         logging.info(self.formatlog("--- End Packaging."))
 
 
-@warnings.deprecated("You should use RunBuild1.")
 class RunBuild:
 
     def __init__(self):
