@@ -12,9 +12,16 @@ import argparse
 import shlex
 import inspect
 import warnings
+import sys
 import configparser
 from dataclasses import dataclass
 from typing import IO
+
+vi = sys.version_info
+version_magic = vi.major * 1000000 + vi.minor * 1000 + vi.micro
+if version_magic < 3013000:  # Python 3.13+
+    print("You should use Python3.13+ to run.")
+    sys.exit(-1)
 
 class Color:
     PURPLE = '\033[95m'
