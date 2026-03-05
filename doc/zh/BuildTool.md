@@ -151,6 +151,9 @@ python3 build.py --configfile build.ini
 
 # 显示帮助
 python3 build.py --help
+
+# 指定构建目录
+python3 build.py -C build
 ```
 
 ### 构建过程输出
