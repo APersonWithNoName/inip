@@ -26,6 +26,7 @@ jobs:
           fetch-depth: 0
           # 使用token
           token: ${{ secrets.ACTION_PAT }}
+          submodules: recursive
 
       - name: Configure Git
         run: |
