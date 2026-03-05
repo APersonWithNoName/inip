@@ -59,35 +59,15 @@ jobs:
             build-essential gcc g++ make cmake git wget curl pkg-config
 
           sudo apt-get install -y \
-            gcc-multilib g++-multilib libc6-dev-i386 lib32stdc++-dev
-
-          sudo apt-get install -y \
             gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu libc6-dev-arm64-cross
           
-          sudo apt-get install -y \
-            gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf binutils-arm-linux-gnueabihf libc6-dev-armhf-cross
-
           sudo apt-get install -y \
             gcc-x86-64-linux-gnu g++-x86-64-linux-gnu binutils-x86-64-linux-gnu libc6-dev-amd64-cross
           
           sudo apt-get install -y \
-            gcc-i686-linux-gnu g++-i686-linux-gnu binutils-i686-linux-gnu libc6-dev-i386-cross
-
-          sudo apt-get install -y \
-            gcc-riscv64-linux-gnu g++-riscv64-linux-gnu binutils-riscv64-linux-gnu libc6-dev-riscv64-cross
-
-          sudo apt-get install -y \
             mingw-w64 mingw-w64-tools \
             gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64 \
-            gcc-mingw-w64-i686 g++-mingw-w64-i686 \
-            binutils-mingw-w64-x86-64 binutils-mingw-w64-i686
-
-          sudo apt-get install -y \
-            libwinpthread1-mingw-w64 libwinpthread1-mingw-w64-dev \
-            libwinpthread1-mingw-w64-32bit libwinpthread1-mingw-w64-64bit \
-            mingw-w64-common \
-            mingw-w64-x86-64-dev mingw-w64-i686-dev
-
+            binutils-mingw-w64-x86-64
 
       - name: Simulate build project
         run: |
