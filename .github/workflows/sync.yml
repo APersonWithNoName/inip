@@ -33,12 +33,13 @@ jobs:
       - name: Setup Build Environment
         run: |
           sudo apt-get update
-          sudo apt-get install make cmake gcc g++ build-essential pkg-config
+          sudo apt-get install make cmake gcc g++ build-essential pkg-config doxygen
 
       - name: Build Project
         run: |
           cmake . -DINIP_ENABLE_GOOGLETEST=ON
           make  -j $(nproc)
+          make docs
         
       - name: Run Googletests
         run: |
