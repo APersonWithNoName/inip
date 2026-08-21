@@ -1,0 +1,823 @@
+# 配置文件编码
+DOXYFILE_ENCODING      = UTF-8
+
+# 项目名称
+PROJECT_NAME           = 
+
+# 项目版本号
+PROJECT_NUMBER         = "@PROJECT_VERSION@"
+
+# 项目简短描述
+PROJECT_BRIEF          = "@PROJECT_DESCRIPTION@"
+
+# 项目徽标
+PROJECT_LOGO           =
+
+# 输出目录
+OUTPUT_DIRECTORY       = "@CMAKE_CURRENT_BINARY_DIR@/doxybuild"
+
+# 是否创建子目录分散输出文件
+CREATE_SUBDIRS         = NO
+
+# 子目录级别 (当 CREATE_SUBDIRS = YES 时生效)
+CREATE_SUBDIRS_LEVEL   = 8
+
+# 是否允许 Unicode 文件名
+ALLOW_UNICODE_NAMES    = NO
+
+# 输出语言 (English, Chinese, etc.)
+OUTPUT_LANGUAGE        = English
+
+# 是否在成员列表后显示简要描述
+BRIEF_MEMBER_DESC      = YES
+
+# 是否在详细描述前重复简要描述
+REPEAT_BRIEF           = YES
+
+# 简要描述缩写词列表
+ABBREVIATE_BRIEF       = "The $name class" \
+                         "The $name widget" \
+                         "The $name file" \
+                         is \
+                         provides \
+                         specifies \
+                         contains \
+                         represents \
+                         a \
+                         an \
+                         the
+
+# 即使只有简要描述也生成详细章节
+ALWAYS_DETAILED_SEC    = NO
+
+# 是否内联显示继承成员
+INLINE_INHERITED_MEMB  = NO
+
+# 是否显示完整路径
+FULL_PATH_NAMES        = YES
+
+# 从路径中剥离的字符串
+STRIP_FROM_PATH        =
+
+# 从包含路径中剥离的字符串
+STRIP_FROM_INC_PATH    =
+
+# 是否使用短文件名
+SHORT_NAMES            = NO
+
+# Javadoc 自动简要描述
+JAVADOC_AUTOBRIEF      = NO
+
+# Javadoc 横幅识别
+JAVADOC_BANNER         = NO
+
+# Qt 自动简要描述
+QT_AUTOBRIEF           = NO
+
+# 多行 C++ 注释作为简要描述
+MULTILINE_CPP_IS_BRIEF = NO
+
+# Python 文档字符串处理
+PYTHON_DOCSTRING       = YES
+
+# 是否继承文档
+INHERIT_DOCS           = YES
+
+# 是否为每个成员单独生成页面
+SEPARATE_MEMBER_PAGES  = NO
+
+# 制表符宽度 (空格数)
+TAB_SIZE               = 4
+
+# 自定义命令别名
+ALIASES                =
+
+# 是否优化 C 输出
+OPTIMIZE_OUTPUT_FOR_C  = NO
+
+# 是否优化 Java 输出
+OPTIMIZE_OUTPUT_JAVA   = NO
+
+# 是否优化 Fortran 输出
+OPTIMIZE_FOR_FORTRAN   = NO
+
+# 是否优化 VHDL 输出
+OPTIMIZE_OUTPUT_VHDL   = NO
+
+# 是否优化 Slice 输出
+OPTIMIZE_OUTPUT_SLICE  = NO
+
+# 扩展名到语言的映射
+EXTENSION_MAPPING      =
+
+# 是否支持 Markdown
+MARKDOWN_SUPPORT       = YES
+
+# Markdown 标题在目录中的最大层级
+TOC_INCLUDE_HEADINGS   = 5
+
+# Markdown 标题 ID 生成风格
+MARKDOWN_ID_STYLE      = DOXYGEN
+
+# 是否自动链接到文档
+AUTOLINK_SUPPORT       = YES
+
+# 是否支持 SIP
+SIP_SUPPORT            = NO
+
+# IDL 属性支持
+IDL_PROPERTY_SUPPORT   = YES
+
+# 是否分发组文档
+DISTRIBUTE_GROUP_DOC   = NO
+
+# 是否将嵌套复合体加入组
+GROUP_NESTED_COMPOUNDS = NO
+
+# 是否启用子分组
+SUBGROUPING            = YES
+
+# 是否内联显示分组的类
+INLINE_GROUPED_CLASSES = YES
+
+# 是否内联显示简单结构体
+INLINE_SIMPLE_STRUCTS  = YES
+
+# 是否用 typedef 名隐藏结构体名
+TYPEDEF_HIDES_STRUCT   = NO
+
+# 符号查找缓存大小 (0-9)
+LOOKUP_CACHE_SIZE      = 5
+
+# 并行处理线程数 (0=自动)
+NUM_PROC_THREADS       = 0
+
+# 是否显示时间戳
+TIMESTAMP              = NO
+
+# 是否提取所有实体
+EXTRACT_ALL            = NO
+
+# 是否提取私有成员
+EXTRACT_PRIVATE        = NO
+
+# 是否提取私有虚方法
+EXTRACT_PRIV_VIRTUAL   = NO
+
+# 是否提取包/内部作用域成员
+EXTRACT_PACKAGE        = NO
+
+# 是否提取静态成员
+EXTRACT_STATIC         = NO
+
+# 是否提取局部类
+EXTRACT_LOCAL_CLASSES  = YES
+
+# 是否提取局部方法 (Objective-C)
+EXTRACT_LOCAL_METHODS  = NO
+
+# 是否提取匿名命名空间
+EXTRACT_ANON_NSPACES   = NO
+
+# 是否解析未命名参数
+RESOLVE_UNNAMED_PARAMS = YES
+
+# 是否隐藏未文档化成员
+HIDE_UNDOC_MEMBERS     = NO
+
+# 是否隐藏未文档化类
+HIDE_UNDOC_CLASSES     = YES
+
+# 是否隐藏友元复合体
+HIDE_FRIEND_COMPOUNDS  = NO
+
+# 是否隐藏函数体内的文档
+HIDE_IN_BODY_DOCS      = NO
+
+# 是否包含内部文档
+INTERNAL_DOCS          = NO
+
+# 是否区分大小写 (SYSTEM/NO/YES)
+CASE_SENSE_NAMES       = YES
+
+# 是否隐藏作用域名
+HIDE_SCOPE_NAMES       = NO
+
+# 是否隐藏复合体引用后缀
+HIDE_COMPOUND_REFERENCE= NO
+
+# 是否显示头文件
+SHOW_HEADERFILE        = YES
+
+# 是否显示包含文件列表
+SHOW_INCLUDE_FILES     = YES
+
+# 是否为分组成员显示包含语句
+SHOW_GROUPED_MEMB_INC  = NO
+
+# 是否强制使用本地包含 (双引号)
+FORCE_LOCAL_INCLUDES   = NO
+
+# 是否显示内联标记
+INLINE_INFO            = YES
+
+# 是否排序成员文档
+SORT_MEMBER_DOCS       = YES
+
+# 是否排序简要描述
+SORT_BRIEF_DOCS        = NO
+
+# 是否将构造/析构函数排在最前
+SORT_MEMBERS_CTORS_1ST = NO
+
+# 是否排序组名
+SORT_GROUP_NAMES       = NO
+
+# 是否按作用域名排序
+SORT_BY_SCOPE_NAME     = NO
+
+# 是否严格匹配原型
+STRICT_PROTO_MATCHING  = NO
+
+# 是否生成 TODO 列表
+GENERATE_TODOLIST      = YES
+
+# 是否生成测试列表
+GENERATE_TESTLIST      = YES
+
+# 是否生成缺陷列表
+GENERATE_BUGLIST       = YES
+
+# 是否生成已弃用列表
+GENERATE_DEPRECATEDLIST= YES
+
+# 启用的条件章节
+ENABLED_SECTIONS       =
+
+# 初始化器最大显示行数
+MAX_INITIALIZER_LINES  = 30
+
+# 是否显示已使用的文件
+SHOW_USED_FILES        = YES
+
+# 是否显示文件页面
+SHOW_FILES             = YES
+
+# 是否显示命名空间页面
+SHOW_NAMESPACES        = YES
+
+# 文件版本过滤器
+FILE_VERSION_FILTER    =
+
+# 布局文件
+LAYOUT_FILE            =
+
+# BibTeX 参考文献文件
+CITE_BIB_FILES         =
+
+# 是否安静模式
+QUIET                  = YES
+
+# 是否启用警告
+WARNINGS               = YES
+
+# 是否警告未文档化成员
+WARN_IF_UNDOCUMENTED   = NO
+
+# 是否警告文档错误
+WARN_IF_DOC_ERROR      = YES
+
+# 是否警告不完整文档
+WARN_IF_INCOMPLETE_DOC = YES
+
+# 是否警告无参数文档
+WARN_NO_PARAMDOC       = NO
+
+# 是否警告未文档化枚举值
+WARN_IF_UNDOC_ENUM_VAL = NO
+
+# 是否将警告视为错误
+WARN_AS_ERROR          = NO
+
+# 警告格式
+WARN_FORMAT            = "$file:$line: $text"
+
+# 警告行格式
+WARN_LINE_FORMAT       = "at line $line of file $file"
+
+# 警告日志文件
+WARN_LOGFILE           =
+
+# 输入文件/目录
+INPUT                  = "@CMAKE_CURRENT_SOURCE_DIR@/src" \
+						  "@CMAKE_CURRENT_SOURCE_DIR@/include"
+
+# 输入编码
+INPUT_ENCODING         = UTF-8
+
+# 按模式指定输入编码
+INPUT_FILE_ENCODING    =
+
+# 文件匹配模式
+FILE_PATTERNS          = *.c \
+                         *.cc \
+                         *.cxx \
+                         *.cpp \
+                         *.c++ \
+                         *.java \
+                         *.h \
+                         *.hh \
+                         *.hxx \
+                         *.hpp \
+                         *.h++ \
+                         *.py \
+                         *.f90 \
+                         *.for \
+                         *.vhd \
+                         *.vhdl
+
+# 是否递归搜索
+RECURSIVE              = YES
+
+# 排除的文件/目录
+EXCLUDE                = 3rdlib/ src/library/ build/
+
+# 是否排除符号链接
+EXCLUDE_SYMLINKS       = NO
+
+# 排除的模式
+EXCLUDE_PATTERNS       =
+
+# 排除的符号
+EXCLUDE_SYMBOLS        =
+
+# 示例文件路径
+EXAMPLE_PATH           =
+
+# 示例文件匹配模式
+EXAMPLE_PATTERNS       = *
+
+# 是否递归搜索示例目录
+EXAMPLE_RECURSIVE      = NO
+
+# 图片路径
+IMAGE_PATH             =
+
+# 输入过滤器
+INPUT_FILTER           =
+
+# 按模式过滤
+FILTER_PATTERNS        =
+
+# 是否过滤源文件
+FILTER_SOURCE_FILES    = NO
+
+# 源文件过滤模式
+FILTER_SOURCE_PATTERNS =
+
+# 使用 Markdown 作为主页
+USE_MDFILE_AS_MAINPAGE =
+
+# Fortran 注释起始列
+FORTRAN_COMMENT_AFTER  = 72
+
+# 是否生成源码浏览
+SOURCE_BROWSER         = YES
+
+# 是否内联显示源码
+INLINE_SOURCES         = YES
+
+# 是否剥离代码注释
+STRIP_CODE_COMMENTS    = NO
+
+# 是否显示被引用关系
+REFERENCED_BY_RELATION = YES
+
+# 是否显示引用关系
+REFERENCES_RELATION    = YES
+
+# 是否链接到源码
+REFERENCES_LINK_SOURCE = YES
+
+# 是否显示源码工具提示
+SOURCE_TOOLTIPS        = YES
+
+# 是否使用 htags
+USE_HTAGS              = NO
+
+# 是否显示头文件原文
+VERBATIM_HEADERS       = YES
+
+# 是否使用 Clang 辅助解析
+CLANG_ASSISTED_PARSING = YES
+
+# Clang 是否添加包含路径
+CLANG_ADD_INC_PATHS    = YES
+
+# Clang 选项
+CLANG_OPTIONS          =
+
+# Clang 编译数据库路径
+CLANG_DATABASE_PATH    = compile_commands.json
+
+# 是否生成字母索引
+ALPHABETICAL_INDEX     = YES
+
+# 忽略的前缀
+IGNORE_PREFIX          =
+
+# 是否生成 HTML
+GENERATE_HTML          = YES
+
+# HTML 输出目录
+HTML_OUTPUT            = html
+
+# HTML 文件扩展名
+HTML_FILE_EXTENSION    = .html
+
+# HTML 头文件
+HTML_HEADER            =
+
+# HTML 页脚文件
+HTML_FOOTER            =
+
+# HTML 样式表
+HTML_STYLESHEET        =
+
+# 额外样式表
+HTML_EXTRA_STYLESHEET  =
+
+# 额外文件
+HTML_EXTRA_FILES       =
+
+# 颜色风格 (LIGHT/DARK/AUTO_LIGHT/AUTO_DARK/TOGGLE)
+HTML_COLORSTYLE        = AUTO_LIGHT
+
+# 色调 (0-359)
+HTML_COLORSTYLE_HUE    = 220
+
+# 饱和度 (0-255)
+HTML_COLORSTYLE_SAT    = 100
+
+# 伽马值 (40-240)
+HTML_COLORSTYLE_GAMMA  = 80
+
+# 是否使用动态菜单
+HTML_DYNAMIC_MENUS     = YES
+
+# 是否使用动态章节
+HTML_DYNAMIC_SECTIONS  = NO
+
+# 是否启用代码折叠
+HTML_CODE_FOLDING      = YES
+
+# 索引条目数
+HTML_INDEX_NUM_ENTRIES = 100
+
+# 是否生成 DocSet
+GENERATE_DOCSET        = NO
+
+# DocSet 源名称
+DOCSET_FEEDNAME        = "Doxygen generated docs"
+
+# DocSet 源 URL
+DOCSET_FEEDURL         =
+
+# DocSet Bundle ID
+DOCSET_BUNDLE_ID       = com.github.APersonWithNoName.inip
+
+# DocSet 发布者 ID
+DOCSET_PUBLISHER_ID    = com.github.APersonWithNoName.inip
+
+# DocSet 发布者名称
+DOCSET_PUBLISHER_NAME  = Publisher
+
+# 是否生成 HTML Help
+GENERATE_HTMLHELP      = NO
+
+# CHM 文件名
+CHM_FILE               =
+
+# HTML Help 编译器位置
+HHC_LOCATION           =
+
+# 是否生成 CHI 索引
+GENERATE_CHI           = NO
+
+# CHM 索引编码
+CHM_INDEX_ENCODING     =
+
+# 是否使用二进制目录
+BINARY_TOC             = NO
+
+# 是否展开目录
+TOC_EXPAND             = NO
+
+# 站点地图 URL
+SITEMAP_URL            =
+
+# 是否生成 Qt Help
+GENERATE_QHP           = NO
+
+# QCH 文件名
+QCH_FILE               =
+
+# QHP 命名空间
+QHP_NAMESPACE          = org.doxygen.Project
+
+# QHP 虚拟文件夹
+QHP_VIRTUAL_FOLDER     = doc
+
+# QHP 自定义过滤器名称
+QHP_CUST_FILTER_NAME   =
+
+# QHP 自定义过滤器属性
+QHP_CUST_FILTER_ATTRS  =
+
+# QHP 章节过滤器属性
+QHP_SECT_FILTER_ATTRS  =
+
+# QHG 位置
+QHG_LOCATION           =
+
+# 是否生成 Eclipse Help
+GENERATE_ECLIPSEHELP   = NO
+
+# Eclipse Doc ID
+ECLIPSE_DOC_ID         = org.doxygen.Project
+
+# 是否禁用索引
+DISABLE_INDEX          = NO
+
+# 是否生成树视图
+GENERATE_TREEVIEW      = YES
+
+# 是否使用全侧边栏
+FULL_SIDEBAR           = YES
+
+# 每行枚举值数量
+ENUM_VALUES_PER_LINE   = 4
+
+# 树视图宽度
+TREEVIEW_WIDTH         = 250
+
+# 是否在新窗口打开外部链接
+EXT_LINKS_IN_WINDOW    = NO
+
+# 是否混淆电子邮件
+OBFUSCATE_EMAILS       = YES
+
+# HTML 公式格式 (png/svg)
+HTML_FORMULA_FORMAT    = svg
+
+# 公式字体大小
+FORMULA_FONTSIZE       = 10
+
+# 公式宏文件
+FORMULA_MACROFILE      =
+
+# 是否使用 MathJax
+USE_MATHJAX            = NO
+
+# MathJax 版本
+MATHJAX_VERSION        = MathJax_2
+
+# MathJax 格式
+MATHJAX_FORMAT         = HTML-CSS
+
+# MathJax 相对路径
+MATHJAX_RELPATH        =
+
+# MathJax 扩展
+MATHJAX_EXTENSIONS     =
+
+# MathJax 代码文件
+MATHJAX_CODEFILE       =
+
+# 是否启用搜索
+SEARCHENGINE           = YES
+
+# 是否使用服务器端搜索
+SERVER_BASED_SEARCH    = NO
+
+# 是否使用外部搜索
+EXTERNAL_SEARCH        = NO
+
+# 搜索引擎 URL
+SEARCHENGINE_URL       =
+
+# 搜索数据文件
+SEARCHDATA_FILE        = searchdata.xml
+
+# 外部搜索 ID
+EXTERNAL_SEARCH_ID     =
+
+# 额外搜索映射
+EXTRA_SEARCH_MAPPINGS  =
+
+# 是否生成 LaTeX
+GENERATE_LATEX         = NO
+
+# LaTeX 输出目录
+LATEX_OUTPUT           = latex
+
+# LaTeX 命令名
+LATEX_CMD_NAME         =
+
+# Makeindex 命令名
+MAKEINDEX_CMD_NAME     = makeindex
+
+# LaTeX Makeindex 命令
+LATEX_MAKEINDEX_CMD    = makeindex
+
+# 是否紧凑 LaTeX
+COMPACT_LATEX          = NO
+
+# 纸张类型 (a4/letter/legal/executive)
+PAPER_TYPE             = a4
+
+# 额外 LaTeX 包
+EXTRA_PACKAGES         =
+
+# LaTeX 头文件
+LATEX_HEADER           =
+
+# LaTeX 页脚
+LATEX_FOOTER           =
+
+# 额外样式表
+LATEX_EXTRA_STYLESHEET =
+
+# 额外文件
+LATEX_EXTRA_FILES      =
+
+# 是否启用 PDF 超链接
+PDF_HYPERLINKS         = YES
+
+# 是否使用 PDFLaTeX
+USE_PDFLATEX           = YES
+
+# LaTeX 批处理模式
+LATEX_BATCHMODE        = NO
+
+# 是否隐藏索引章节
+LATEX_HIDE_INDICES     = NO
+
+# LaTeX 参考文献风格
+LATEX_BIB_STYLE        = plain
+
+# LaTeX Emoji 目录
+LATEX_EMOJI_DIRECTORY  =
+
+# RTF 输出配置
+GENERATE_RTF           = NO
+RTF_OUTPUT             = rtf
+COMPACT_RTF            = NO
+RTF_HYPERLINKS         = NO
+RTF_STYLESHEET_FILE    =
+RTF_EXTENSIONS_FILE    =
+
+# Man 页面输出配置
+GENERATE_MAN           = NO
+MAN_OUTPUT             = man
+MAN_EXTENSION          = .3
+MAN_SUBDIR             =
+MAN_LINKS              = NO
+
+# XML 输出配置
+GENERATE_XML           = NO
+XML_OUTPUT             = xml
+XML_PROGRAMLISTING     = YES
+XML_NS_MEMB_FILE_SCOPE = NO
+
+# DocBook 输出配置
+GENERATE_DOCBOOK       = NO
+DOCBOOK_OUTPUT         = docbook
+
+# AutoGen 输出配置
+GENERATE_AUTOGEN_DEF   = NO
+
+# SQLite3 输出配置
+GENERATE_SQLITE3       = NO
+SQLITE3_OUTPUT         = sqlite3
+SQLITE3_RECREATE_DB    = YES
+
+# Perl 模块输出配置
+GENERATE_PERLMOD       = NO
+PERLMOD_LATEX          = NO
+PERLMOD_PRETTY         = YES
+PERLMOD_MAKEVAR_PREFIX =
+
+# 预处理器配置
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = NO
+EXPAND_ONLY_PREDEF     = NO
+SEARCH_INCLUDES        = YES
+INCLUDE_PATH           =
+INCLUDE_FILE_PATTERNS  =
+PREDEFINED             =
+EXPAND_AS_DEFINED      =
+SKIP_FUNCTION_MACROS   = YES
+
+# 外部引用配置
+TAGFILES               =
+GENERATE_TAGFILE       =
+ALLEXTERNALS           = NO
+EXTERNAL_GROUPS        = YES
+EXTERNAL_PAGES         = YES
+
+# 图表生成工具配置
+HIDE_UNDOC_RELATIONS   = YES
+HAVE_DOT               = YES
+DOT_NUM_THREADS        = 0
+DOT_COMMON_ATTR        = "fontname=Helvetica,fontsize=10"
+DOT_EDGE_ATTR          = "labelfontname=Helvetica,labelfontsize=10"
+DOT_NODE_ATTR          = "shape=box,height=0.2,width=0.4"
+DOT_FONTPATH           =
+CLASS_GRAPH            = YES
+COLLABORATION_GRAPH    = YES
+GROUP_GRAPHS           = YES
+UML_LOOK               = NO
+UML_LIMIT_NUM_FIELDS   = 10
+DOT_UML_DETAILS        = NO
+DOT_WRAP_THRESHOLD     = 17
+TEMPLATE_RELATIONS     = NO
+INCLUDE_GRAPH          = YES
+INCLUDED_BY_GRAPH      = YES
+CALL_GRAPH             = NO
+CALLER_GRAPH           = NO
+GRAPHICAL_HIERARCHY    = YES
+DIRECTORY_GRAPH        = YES
+DIR_GRAPH_MAX_DEPTH    = 1
+DOT_IMAGE_FORMAT       = png
+INTERACTIVE_SVG        = NO
+DOT_PATH               =
+DOTFILE_DIRS           =
+DIA_PATH               =
+DIAFILE_DIRS           =
+PLANTUML_JAR_PATH      =
+PLANTUML_CFG_FILE      =
+PLANTUML_INCLUDE_PATH  =
+DOT_GRAPH_MAX_NODES    = 50
+MAX_DOT_GRAPH_DEPTH    = 0
+DOT_MULTI_TARGETS      = NO
+GENERATE_LEGEND        = YES
+DOT_CLEANUP            = YES
+MSCGEN_TOOL            =
+MSCFILE_DIRS           =
+
+# 是否支持 STL (C++ 标准模板库)
+# 启用后 doxygen 能正确识别 std::string, std::vector 等类型
+# 默认值: NO
+BUILTIN_STL_SUPPORT    = YES
+
+# 是否支持 C++/CLI (Microsoft 的 C++/CLI 语言)
+# 默认值: NO
+CPP_CLI_SUPPORT        = NO
+
+# 是否显示模板关系 (继承和协作图中显示模板及其实例化之间的关系)
+# 默认值: NO
+TEMPLATE_RELATIONS     = YES
+
+# 是否使用 Clang 辅助解析 (更准确的 C++ 解析，特别是模板丰富的代码)
+# 注意：需要 doxygen 编译时启用 -Duse_libclang=ON
+# 默认值: NO
+CLANG_ASSISTED_PARSING = YES
+
+# Clang 是否自动添加包含路径 (将每个输入的目录添加到包含路径)
+# 默认值: YES
+# 需要: CLANG_ASSISTED_PARSING = YES
+CLANG_ADD_INC_PATHS    = YES
+
+# Clang 编译选项 (传递给 Clang 解析器的命令行选项)
+# 需要: CLANG_ASSISTED_PARSING = YES
+CLANG_OPTIONS          =
+
+# Clang 编译数据库路径 (包含 compile_commands.json 的目录)
+# 需要: CLANG_ASSISTED_PARSING = YES
+CLANG_DATABASE_PATH    =
+
+# 是否启用 C 优化输出 (C++ 项目应保持 NO)
+# 设为 YES 会省略成员列表等，仅适合纯 C 项目
+# 默认值: NO
+OPTIMIZE_OUTPUT_FOR_C  = NO
+
+# 是否严格匹配函数原型 (影响 C++ 重载函数的匹配)
+# 默认值: NO
+STRICT_PROTO_MATCHING  = NO
+
+# 是否将构造/析构函数排在最前 (C++ 类成员排序)
+# 默认值: NO
+SORT_MEMBERS_CTORS_1ST = NO
+
+# 是否提取私有虚方法 (C++ 私有虚函数)
+# 默认值: NO
+EXTRACT_PRIV_VIRTUAL   = NO
+
+# 是否内联显示继承成员 (C++ 继承关系显示)
+# 默认值: NO
+INLINE_INHERITED_MEMB  = NO
+
+# 是否显示模板参数 (在类文档中)
+# 此选项通过 TEMPLATE_RELATIONS 间接控制
+# 无独立标签

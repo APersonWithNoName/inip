@@ -1,0 +1,19 @@
+repos:
+  - repo: https://github.com/cpp-linter/cpp-linter-hooks
+    rev: v1.5.0
+    hooks:
+      - id: clang-format
+        files: ^(?!3rdlib/).*\.(cpp|cc|cxx|h|hpp|hxx)$
+        args: [--style=file:.clang-format, --version=21, -i]
+      - id: clang-tidy
+        files: ^(?!.*(?:^3rdlib/|^src/test/|^src/examples/)).*\.(cpp|cc|cxx|h|hpp|hxx)$
+        args: [--config-file=.clang-tidy, --version=21]
+
+  - repo: https://github.com/cheshirekow/cmake-format-precommit
+    rev: v0.6.10
+    hooks:
+      - id: cmake-format
+        files: ^(CMakeLists\.txt|src/(library|test)/CMakeLists\.txt|.*\.cmake)$
+        args: [-i]
+      - id: cmake-lint
+        files: ^(CMakeLists\.txt|src/(library|test)/CMakeLists\.txt|.*\.cmake)$
