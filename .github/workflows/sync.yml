@@ -33,8 +33,7 @@ jobs:
       - name: Setup Build Environment
         run: |
           sudo apt-get update
-          sudo apt-get upgrade
-          sudo apt-get make cmake gcc g++ build-essential pkg-config
+          sudo apt-get install make cmake gcc g++ build-essential pkg-config
 
       - name: Build Project
         run: |
