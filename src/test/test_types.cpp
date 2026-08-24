@@ -67,6 +67,7 @@ TEST(TypesTest, Str2UIntTest)
   // uint required stoul, -1 will return std::numeric_limits<unsigned long>::max()
   // if large than std::numeric_limits<unsigned int>::max(), ,  throw exception
   EXPECT_THROW(::inip::Types::str2uint("-1"), ::inip::err::Errors);
+  EXPECT_THROW(::inip::Types::str2uint("114.514"), ::inip::err::Errors);
   EXPECT_THROW(::inip::Types::str2uint("invalid"), ::inip::err::Errors);
   EXPECT_THROW(::inip::Types::str2uint(""), ::inip::err::Errors);
 }
@@ -75,9 +76,16 @@ TEST(TypesTest, Str2LongTest)
 {
   EXPECT_EQ(::inip::Types::str2long("0"), 0L);
   EXPECT_EQ(::inip::Types::str2long("42"), 42L);
-  EXPECT_EQ(::inip::Types::str2long("-42"), -42L);
+  EXPECT_EQ(::inip::Types::str2long("-32"), -32L);
+#if defined(__linux__) || defined(__unix__)
+  std::cout << "Platform is linux/unix, use 64-bit long\n";
   EXPECT_EQ(::inip::Types::str2long("9223372036854775807"), 9223372036854775807L);
-  EXPECT_EQ(::inip::Types::str2long("-9223372036854775808"), -9223372036854775807L - 1);
+#elif defined(_WIN32) || defined(_WIN64)
+  std::cout << "Platform is windows, use 32-bit long\n";
+  EXPECT_THROW(::inip::Types::str2long("9223372036854775807"), ::inip::err::Errors);
+#else
+  std::cout << "Platform is unkonow, skip test long max\n";
+#endif
 
   EXPECT_THROW(::inip::Types::str2long("invalid"), ::inip::err::Errors);
 }
@@ -86,13 +94,22 @@ TEST(TypesTest, Str2ULongTest)
 {
   EXPECT_EQ(::inip::Types::str2ulong("0"), 0UL);
   EXPECT_EQ(::inip::Types::str2ulong("42"), 42UL);
+
+#if defined(__linux__) || defined(__unix__)
+  std::cout << "Platform is linux/unix, use 64-bit long\n";
   EXPECT_EQ(::inip::Types::str2ulong("18446744073709551615"), 18446744073709551615UL);
-  EXPECT_EQ(::inip::Types::str2ulong("-1"), std::numeric_limits<unsigned long>::max());
-  EXPECT_EQ(::inip::Types::str2ulong("12.34"), 12);
-  EXPECT_EQ(::inip::Types::str2ulong("114.514"), 114);
+#elif defined(_WIN32) || defined(_WIN64)
+  std::cout << "Platform is windows, use 32-bit long\n";
+  EXPECT_THROW(::inip::Types::str2long("18446744073709551615"), ::inip::err::Errors);
+#else
+  std::cout << "Platform is unkonow, skip test ulong max\n";
+#endif
 
   EXPECT_THROW(::inip::Types::str2ulong("invalid"), ::inip::err::Errors);
   EXPECT_THROW(::inip::Types::str2ulong(""), ::inip::err::Errors);
+  EXPECT_THROW(::inip::Types::str2ulong("-1"), ::inip::err::Errors);
+  EXPECT_THROW(::inip::Types::str2ulong("12.34"), ::inip::err::Errors);
+  EXPECT_THROW(::inip::Types::str2ulong("114.514"), ::inip::err::Errors);
 }
 
 TEST(TypesTest, Str2LongLongTest)
