@@ -281,9 +281,9 @@ TEST(ToolsTest, PerformanceTest)
     }
   }
 
-  auto start = std::chrono::high_resolution_clock::now();
+  auto start = std::chrono::steady_clock::now();
   std::vector<std::string> result = ::inip::Tools::split(long_string, ",");
-  auto end = std::chrono::high_resolution_clock::now();
+  auto end = std::chrono::steady_clock::now();
 
   auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Split " << num_segments << " segments took " << duration.count() << " microseconds\n";
