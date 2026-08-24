@@ -2,7 +2,9 @@
 #include "inip/Exception.hpp"
 
 #include <cctype>
+#include <cstdlib>
 #include <limits>
+#include <cerrno>
 #include <string>
 
 auto inip::Types::bool2str(const bool b) -> std::string
@@ -27,18 +29,30 @@ auto inip::Types::str2bool(const std::string &s) -> bool
 
 auto inip::Types::str2uint(const std::string &s) -> unsigned int
 {
-  try {
-    auto tmp = std::stoul(s);
-
-    if (tmp > std::numeric_limits<unsigned int>::max()) {
-      throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
-    }
-
-    return static_cast<unsigned int>(tmp);
-  }
-  catch (...) {
+  if (s.empty()) {
     throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
   }
+
+  char* endptr = nullptr;
+  errno = 0;
+
+  unsigned long result = strtoul(s.c_str(), &endptr, 10);
+
+  // check if convert the full string
+  if (endptr == s.c_str() || *endptr != '\0') {
+    throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
+  }
+
+  // check overflow
+  if (errno == ERANGE || result > std::numeric_limits<unsigned int>::max()) {
+    throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
+  }
+
+  if (s.find('-') != std::string::npos) {
+    throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
+  }
+
+  return static_cast<unsigned int>(result);
 }
 
 auto inip::Types::str2int(const std::string &s) -> int
@@ -54,7 +68,25 @@ auto inip::Types::str2int(const std::string &s) -> int
 auto inip::Types::str2long(const std::string &s) -> long
 {
   try {
-    return std::stol(s);
+    if (s.empty()) {
+      throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
+    }
+
+    char* endptr = nullptr;
+    errno = 0;
+
+    // use strtol
+    long value = strtol(s.c_str(), &endptr, 10);
+
+    if (endptr == s.c_str() || *endptr != '\0') {
+      throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
+    }
+
+    if (errno == ERANGE) {
+      throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
+    }
+
+    return value;
   }
   catch (...) {
     throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
@@ -64,7 +96,27 @@ auto inip::Types::str2long(const std::string &s) -> long
 auto inip::Types::str2ulong(const std::string &s) -> unsigned long
 {
   try {
-    return std::stoul(s);
+    if (s.empty()) {
+      throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
+    }
+
+    if (s.find('-') != std::string::npos) {
+      throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
+    }
+
+    char* endptr = nullptr;
+    errno = 0;
+    unsigned long value = std::strtoul(s.c_str(), &endptr, 10);
+
+    if (endptr == s.c_str() || *endptr != '\0') {
+      throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
+    }
+
+    if (errno == ERANGE) {
+      throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
+    }
+
+    return value;
   }
   catch (...) {
     throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
