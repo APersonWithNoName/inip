@@ -12,6 +12,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 option(INIP_ENABLE_GOOGLETEST "Build GoogleTest" ON)
 option(INIP_ENABLE_DOXYGEN "Build Doxygen Documents" ON)
+option(INIP_ENABLE_CLI "Build CLI program" ON)
 option(INIP_ENABLE_CMAKE_CONFIG "Build CMake Config Files" ON)
 option(INSTALL_GTEST "Install Gtest libraries" OFF)
 option(INIP_ENABLE_PKGCONFIG "Build pkg-config .pc configure" ON)
@@ -28,11 +29,20 @@ set(LIB_NAME
 set(ORIGINAL_STATIC_LIB_NAME
     ${LIB_NAME}_static
     CACHE STRING "Name of the static library")
+set(CLI_NAME
+    ${PROJECT_NAME}cli
+    CACHE STRING "Name if the CLI program")
 
 include_directories(include)
 add_subdirectory(src/library)
+
 if(INIP_ENABLE_GOOGLETEST)
   add_subdirectory(src/test)
+endif()
+
+if(INIP_ENABLE_CLI)
+  add_subdirectory(3rdlib/CLI11)
+  add_subdirectory(src/inipcli)
 endif()
 
 # cmake-lint: disable=E1122

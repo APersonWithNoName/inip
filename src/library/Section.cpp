@@ -1,6 +1,7 @@
 #include "inip/Section.hpp"
 #include "inip/Exception.hpp"
 #include "inip/Node.hpp"
+#include "inip/Tools.hpp"
 #include "inip/Types.hpp"
 
 #include <cstddef>
@@ -113,15 +114,12 @@ std::string inip::Section::to_string(void) const
 {
   std::stringstream ret;
 
-  if (this->name.empty()) {
-    ret << "";
-  }
-  else {
-    ret << "[" << this->name << "]" << "\n";
+  if (!this->name.empty()) {
+    ret << "[" << Tools::add_escape(this->name) << "]" << "\n";
   }
 
   for (const auto &i : data) {
-    ret << i.first << " = " << i.second.get_value() << "\n";
+    ret << Tools::add_escape(i.first) << " = " << Tools::add_escape(i.second.get_value()) << "\n";
   }
 
   return ret.str();
@@ -169,15 +167,29 @@ inip::Section::const_iterator inip::Section::cbegin() const
 {
   return this->data.cbegin();
 }
+
 inip::Section::const_iterator inip::Section::cend() const
 {
   return this->data.cend();
 }
+
 inip::Section::iterator inip::Section::begin()
 {
   return this->data.begin();
 };
+
 inip::Section::iterator inip::Section::end()
+{
+  return this->data.end();
+};
+
+
+inip::Section::const_iterator inip::Section::begin() const
+{
+  return this->data.begin();
+};
+
+inip::Section::const_iterator inip::Section::end() const
 {
   return this->data.end();
 };

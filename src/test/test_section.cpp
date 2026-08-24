@@ -325,7 +325,7 @@ TEST(SectionTest, ToStringMethod)
   EXPECT_TRUE(result.find("[TestSection]") != std::string::npos);
   EXPECT_TRUE(result.find("key1 = value1") != std::string::npos);
   EXPECT_TRUE(result.find("key2 = value2") != std::string::npos);
-  EXPECT_TRUE(result.find("key3 = value3=with=equals") != std::string::npos);
+  EXPECT_TRUE(result.find("key3 = value3\\=with\\=equals") != std::string::npos);
 
   inip::Section empty_named_section("EmptySection");
   EXPECT_EQ(empty_named_section.to_string(), "[EmptySection]\n");
