@@ -381,3 +381,28 @@ TEST_F(IniMgrTest, ParseLongStr)
 
   EXPECT_EQ(ini.get_data()->at("database").get_value("desc"), "this is   a server");
 }
+
+
+TEST_F(IniMgrTest, ParseEscapeChar)
+{
+  inip::IniMgr ini("test.ini");
+
+  std::string content =
+    "[database]\n"
+    "ho\\=st \\== local\\;host\n"
+    "desc = this is \\\n"
+    "  a serv\\\n"
+    "er\n"
+    ""
+    "port = 3306\n"
+    "\n";
+
+  std::istringstream iss(content);
+  std::vector<inip::err::Errors> err_list;
+
+  auto result = ini.parse_str(iss, err_list);
+  EXPECT_EQ(result.get_code_err(), inip::err::ErrCode::NO_ERRORS);
+
+  EXPECT_EQ(ini.get_data()->at("database").get_value("desc"), "this is   a server");
+  EXPECT_EQ(ini.get_data()->at("database").get_value("ho=st ="), "local;host");
+}

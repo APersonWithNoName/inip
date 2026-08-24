@@ -403,9 +403,19 @@ public:
   std::size_t size() const;
   std::size_t max_size() const;
 
+  typedef std::map<std::string, inip::Section>::iterator iterator;
+  typedef std::map<std::string, inip::Section>::reverse_iterator reverse_iterator;
   typedef std::map<std::string, inip::Section>::const_iterator const_iterator;
   typedef std::map<std::string, inip::Section>::const_reverse_iterator const_reverse_iterator;
 
+  iterator begin(void);
+  iterator end(void);
+  reverse_iterator rbegin(void);
+  reverse_iterator rend(void);
+  const_iterator begin(void) const;
+  const_iterator end(void) const;
+  const_reverse_iterator rbegin(void) const;
+  const_reverse_iterator rend(void) const;
   const_iterator cbegin(void) const;
   const_iterator cend(void) const;
   const_reverse_iterator crbegin(void) const;

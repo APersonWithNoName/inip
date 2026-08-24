@@ -8,6 +8,7 @@
 #include <ios>
 #include <map>
 #include <sstream>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -213,7 +214,6 @@ inip::err::Errors inip::IniMgr::parse_str(std::istringstream &iss,
       // length     |<- equal_pos     ->|<- value_last - value_first + 1 ->|
       //                                    = linelen - 1 - (equal_pos + 1) + 1
       std::string key = inip::Tools::trim(inip::Tools::remove_escape(_linedata.substr(0, equal_pos)));
-
       std::string value = inip::Tools::trim(inip::Tools::remove_escape(_linedata.substr(equal_pos + 1, linelen - equal_pos)));
 
       if (key.empty()) {
@@ -225,27 +225,34 @@ inip::err::Errors inip::IniMgr::parse_str(std::istringstream &iss,
         continue;
       }
 
-      if (value.back() == '\\') {
+      if (linedata.back() == '\\' && !check_escape(linedata.empty() ? "" : // not escaped
+                                                     linedata.substr(0, linedata.length() - 1))) {
         std::string long_str;
         std::string tmp;
         while (std::getline(iss, tmp)) {
-          skip_lines++;
           if (tmp.empty()) {
+            skip_lines++;
             break;
           }
 
-          if (tmp.back() != '\\') {
+          auto ctx = tmp.substr(0, tmp.length() - 1);
+
+          // not ended by backescape or be escaped
+          if (tmp.back() != '\\' || check_escape(ctx)) {
             long_str += tmp;
+            skip_lines++;
             break;
           }
 
-          tmp.pop_back();
-          long_str += tmp;
+          long_str += ctx;
+          skip_lines++;
         }
 
         value.pop_back();
         value += long_str;
       }
+
+      skip_lines--;
 
       // duplicate node
       if (this->data[secname].contains(key)) {

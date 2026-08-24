@@ -17,7 +17,12 @@ inip::err::Errors::Errors(const inip::err::ErrCode code, const unsigned int line
 const char *inip::err::Errors::what() const throw()
 {
   std::stringstream ss("");
-  ss << "Inip Error. " << "At line: " << this->line << ", file: " << this->file_name << ", code: " << static_cast<int>(this->code) << ".";
+  ss << "Inip Error. "
+     << "At line: " << this->line
+     << ", file: " << this->file_name
+     << ", code: " << static_cast<int>(this->code)
+     << ", info: " << to_string()
+     << ".";
   this->msg = ss.str();
   return this->msg.c_str();
 }

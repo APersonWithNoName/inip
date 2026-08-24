@@ -269,6 +269,26 @@ std::size_t inip::ini::max_size() const
   return this->inimgr.data.max_size();
 }
 
+inip::ini::iterator inip::ini::begin(void)
+{
+  return inimgr.data.begin();
+}
+
+inip::ini::iterator inip::ini::end(void)
+{
+  return inimgr.data.end();
+}
+
+inip::ini::reverse_iterator inip::ini::rbegin(void)
+{
+  return inimgr.data.rbegin();
+}
+
+inip::ini::reverse_iterator inip::ini::rend(void)
+{
+  return inimgr.data.rend();
+}
+
 inip::ini::const_iterator inip::ini::cbegin(void) const
 {
   return inimgr.data.cbegin();

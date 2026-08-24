@@ -129,6 +129,8 @@ public:
   typedef std::map<std::string, inip::Node>::iterator iterator;
   iterator begin(void);
   iterator end(void);
+  const_iterator begin(void) const;
+  const_iterator end(void) const;
   const_iterator cbegin(void) const;
   const_iterator cend(void) const;
   /// @}

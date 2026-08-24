@@ -1,0 +1,6 @@
+#ifndef __INIP_CLI_CLICONFIG_HPP__
+#define __INIP_CLI_CLICONFIG_HPP__
+
+#define PROJECT_VERSION "@PROJECT_VERSION@"
+
+#endif /* __INIP_CLI_CLICONFIG_HPP__ */
