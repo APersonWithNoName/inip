@@ -11,7 +11,7 @@ permissions:
   actions: write
   contents: write
   checks: write
-  
+
 
 jobs:
   sync:
@@ -45,7 +45,7 @@ jobs:
         run: |
           ctest -V .
 
-      - name: Sync To Main (Merge)
+      - name: Sync To Main (Merge) With Tags
         run: |
           git fetch origin main development
           git checkout -B main origin/main
@@ -58,5 +58,21 @@ jobs:
             exit 1
           fi
           git push origin main
+
+          # Push tags
+          LATEST_TAG=$(git tag --merged origin/development | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n 1)
+          if [[ -n "$LATEST_TAG" ]]; then
+            echo "Latest Tag is $LATEST_TAG"
+
+            git tag -f "$LATEST_TAG" main
+
+            git push origin "$LATEST_TAG" --force
+
+            echo "Push Tag $LATEST_TAG to main"
+          else
+            echo "NO Tags"
+          fi
+
+
 
 

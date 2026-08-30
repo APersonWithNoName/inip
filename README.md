@@ -27,6 +27,8 @@ cmake .. && make -j4
   
   For this, git submodules should be enabled. Or specify
  `INIP_GOOGLETEST_PATH` to a googletest directory. Default is `ON`.
+
+- `INIP_ENABLE_CLI` Whether build `inip` cli tool for parsing INI.
 - `INIP_ENABLE_DOXYGEN` Whether build the Doxygen documents.
   
   The documents can be found in the `BUILD_DIR/doxybuild` directory. And only `html` format will be generated. Default is `ON`.
@@ -207,3 +209,4 @@ LongString = This is \
 a very \\ ; invalid, stop here
    long string
 ```
+
