@@ -1,0 +1,75 @@
+name: Build On Windows By MSVC
+
+
+on:
+  push:
+    branches: [main]
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+
+permissions:
+  actions: write
+  contents: write
+  checks: write
+
+
+jobs:
+  build-x64:
+    runs-on: [windows-latest, windows-11-arm]
+    steps:
+      - name: Checkout Development Branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.ACTION_TOKEN }}
+          submodules: recursive
+          ref: development
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Add MSBuild Environment
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Configure CMake
+        run: |
+          cmake -G "NMake Makefiles" -DINIP_ENABLE_DOXYGEN=OFF
+
+      - name: BUild Project
+        run: |
+          nmake /NOLOGO
+
+      - name: Install 7-zip
+        run: |
+          choco install 7zip -y
+
+      - name: Create Archive
+        shell: pwsh
+        run: |
+          $arch = "${{ runner.arch }}".ToLower()
+          $version = $env:GITHUB_REF_NAME -replace '^v', ''
+          $archiveName = "inip-windows-$arch-v$version-github"
+
+          mkdir "$archiveName"
+          cp .\src\library\inip.dll "$archiveName"
+          cp .\src\library\inip.lib "$archiveName"
+          cp .\src\inipcli\inip.exe "$archiveName"
+
+          echo "Archive name: $archiveName"
+
+          7z a -t7z "$archiveName.7z" "$archiveName"
+
+          echo "ARC_NAME=$archiveName.7z" >> $env:GITHUB_ENV
+
+      - name: Upload Release
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ secrets.ACTION_TOKEN }}
+          files: |
+            ${{ env.ARC_NAME }}
+
+          
