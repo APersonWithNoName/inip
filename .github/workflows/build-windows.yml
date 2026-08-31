@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   build-x64:
-    runs-on: [windows-latest, windows-11-arm]
+    runs-on: [windows-latest]
     steps:
       - name: Checkout Development Branch
         uses: actions/checkout@v4
