@@ -42,7 +42,7 @@ jobs:
 
       - name: Configure CMake
         run: |
-          cmake -G "NMake Makefiles" -DINIP_ENABLE_DOXYGEN=OFF -DINIP_ENABLE_GOOGLETEST=OFF
+          cmake -G "NMake Makefiles" -DINIP_ENABLE_DOXYGEN=OFF -DINIP_ENABLE_GOOGLETEST=OFF -DCMAKE_BUILD_TYPE=Release
 
       - name: BUild Project
         run: |
@@ -57,7 +57,8 @@ jobs:
         run: |
           $arch = "${{ runner.arch }}".ToLower()
           $version = $env:GITHUB_REF_NAME -replace '^v', ''
-          $archiveName = "inip-windows-$arch-v$version-github"
+          $winsdkver = $env:WindowsSDKVersion -replace '[^A-Za-z0-9._-]', ''
+          $archiveName = "inip-v$version-windows-MSVC-VS$env:VisualStudioVersion-VCTools$env:VCToolsVersion-WinSDK$winsdkver"
 
           mkdir "$archiveName"
           cp .\src\library\inip.dll "$archiveName"
