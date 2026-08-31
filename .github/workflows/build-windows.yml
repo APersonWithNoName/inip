@@ -33,7 +33,12 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
       - name: Add MSBuild Environment
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v
+
+      - name: Setup MSVC Environment
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
 
       - name: Configure CMake
         run: |
