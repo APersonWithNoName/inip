@@ -33,7 +33,7 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
       - name: Add MSBuild Environment
-        uses: microsoft/setup-msbuild@v
+        uses: microsoft/setup-msbuild@v3
 
       - name: Setup MSVC Environment
         uses: ilammy/msvc-dev-cmd@v1
@@ -42,7 +42,7 @@ jobs:
 
       - name: Configure CMake
         run: |
-          cmake -G "NMake Makefiles" -DINIP_ENABLE_DOXYGEN=OFF
+          cmake -G "NMake Makefiles" -DINIP_ENABLE_DOXYGEN=OFF -DINIP_ENABLE_GOOGLETEST=OFF
 
       - name: BUild Project
         run: |
