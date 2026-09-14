@@ -56,8 +56,9 @@ int main(int argc, char **argv)
     app.parse(argc, argv);
   }
   catch (const CLI::ParseError &e) {
-    std::cerr << "ParseError: " << e.get_name() << "\n";
+    std::cerr << e.get_name() << "\n";
     app.exit(e);
+    return e.get_exit_code();
   }
 
   if (argrt.version) {
@@ -68,7 +69,7 @@ int main(int argc, char **argv)
   inip::err::ErrList errlist;
   inip::ini inifile("");
   inip::err::Errors result;
-  if (argrt.filename.empty()) {
+  if (argrt.filename.empty() || argrt.filename == "-") {
     std::string line, str;
     while (std::getline(std::cin, line)) {
       str += line;
