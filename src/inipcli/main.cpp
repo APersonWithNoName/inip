@@ -34,7 +34,6 @@ void print_inip_errors(const inip::err::ErrList &e)
 }
 }
 
-
 int main(int argc, char **argv)
 {
   ArgRuntime argrt;
