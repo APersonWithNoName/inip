@@ -17,6 +17,35 @@ inip::ini::ini(const std::string &file_name) : inimgr(file_name)
 
 inip::err::Errors inip::ini::load_file(const std::string &file_name,
                                        std::vector<inip::err::Errors> &err_list,
+                                       const iniOptions opt)
+{
+  return this->inimgr.parse_file(file_name,
+                                 err_list,
+                                 opt.failed_skip,
+                                 opt.use_import,
+                                 opt.import_cover_sec_if_exist,
+                                 opt.allow_duplicate_sec,
+                                 opt.cover_sec_if_exist,
+                                 opt.allow_duplicate_keys,
+                                 opt.cover_key_if_exist);
+}
+
+inip::err::Errors inip::ini::load_file(std::vector<inip::err::Errors> &err_list,
+                                       const iniOptions opt)
+{
+  return this->load_file(this->inimgr.file_name,
+                         err_list,
+                         opt.failed_skip,
+                         opt.use_import,
+                         opt.import_cover_sec_if_exist,
+                         opt.allow_duplicate_sec,
+                         opt.cover_sec_if_exist,
+                         opt.allow_duplicate_keys,
+                         opt.cover_key_if_exist);
+}
+
+inip::err::Errors inip::ini::load_file(const std::string &file_name,
+                                       std::vector<inip::err::Errors> &err_list,
                                        const bool failed_skip,
                                        const bool use_import,
                                        const bool import_cover_sec_if_exist,

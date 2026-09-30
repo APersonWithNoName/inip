@@ -210,3 +210,59 @@ a very \\ ; invalid, stop here
    long string
 ```
 
+## CLI Tool
+`inip` is a CLI INI parse tool.
+
+### Help
+```
+inip CLI prigram - A tiny tiny INI CLI parser
+
+
+./src/inipcli/inip [OPTIONS]
+
+
+OPTIONS:
+  -h,     --help              Print this help message and exit
+          --version           Print version and exit
+  -F,     --failed_skip       Whether skip failure and continue or stop at first
+  -f,     --file TEXT         The file name, if not specfied, use stdin
+  -s,     --section TEXT      The section name
+  -k,     --key TEXT          The key
+  -v,     --value TEXT        The value
+  -V,     --valid             Check whether the file valid, return code is the count of errors
+  -C,     --clean             Check errors and print file without comments
+  -G,     --get               Print the value of
+  -Q,     --quiet             Quiet mode
+```
+
+### Usage
+#### Specify file name
+Use `-f` or `--file` to specify the input INI file.
+
+If no `-f` options given, or ues `-` as file name (e.g. `-f -`), it will read stdin.
+
+```shell
+inip -f test.ini
+inip --file test.ini
+cat test.ini | inip -f -
+cat test.ini | inip
+```
+
+#### Clean the file
+`-C` or `clean` can remove all the comments and format and print it.
+
+```shell
+cat << EOF > test.ini
+; Comment 1
+
+[sec]
+key = value ; Comment 2
+EOF
+
+inip -f test.ini -C
+
+# Expect
+[sec]
+key = value
+```
+
