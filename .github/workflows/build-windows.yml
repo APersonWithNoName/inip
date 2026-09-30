@@ -43,6 +43,7 @@ jobs:
       - name: Install doxygen
         run: |
           choco install doxygen.install -y
+          choco install graphviz
 
       - name: Configure CMake
         run: |
@@ -85,7 +86,7 @@ jobs:
           ls
 
           echo "ARC_NAME=$archiveName.7z" >> $env:GITHUB_ENV
-          echo "DOC_NAME=$dociveName.7z" >> $env:GITHUB_ENV
+          echo "DOC_NAME=$docName.7z" >> $env:GITHUB_ENV
 
       - name: Upload Release
         uses: softprops/action-gh-release@v2
