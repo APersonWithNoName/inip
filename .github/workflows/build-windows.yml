@@ -51,6 +51,7 @@ jobs:
       - name: BUild Project
         run: |
           nmake /NOLOGO
+          nmake /NOLOGO docs 
 
       - name: Install 7-zip
         run: |
@@ -80,6 +81,8 @@ jobs:
 
           7z a -t7z "$archiveName.7z" "$archiveName"
           7z a -t7z "$docName.7z" "$docName"
+
+          ls
 
           echo "ARC_NAME=$archiveName.7z" >> $env:GITHUB_ENV
           echo "DOC_NAME=$dociveName.7z" >> $env:GITHUB_ENV
