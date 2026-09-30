@@ -7,7 +7,6 @@ repos:
         args: [--style=file:.clang-format, --version=21, -i]
       - id: clang-tidy
         files: ^(?!.*(?:^3rdlib/|^src/test/|^src/examples/)).*\.(cpp|cc|cxx|h|hpp|hxx)$
-        args: [--config-file=.clang-tidy, --version=21]
 
   - repo: https://github.com/cheshirekow/cmake-format-precommit
     rev: v0.6.10

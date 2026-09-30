@@ -11,6 +11,7 @@
 /// #include "inip/ini.hpp"
 /// #include "inip/Exception.hpp"
 /// ```
+#include "inip/ini.hpp"
 #include "inip/inip.hpp"
 
 #include <cstdlib>
@@ -30,6 +31,13 @@ int main(int argc, char **argv)
 
   /// Set file name
   inip::ini ini(file_name);
+
+  /// Also, use `inip::iniOption` struct to specify parser options
+  inip::iniOptions opts;
+  opts.failed_skip = true;
+
+  /// Use it directly
+  auto result1 = ini.load_file(errlist, opts);
 
   /// Load file and parse, a errlist is required
   /// fail_skip could judge whether skip failure or stop at the first error

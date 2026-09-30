@@ -2,9 +2,9 @@
 #include "inip/Exception.hpp"
 
 #include <cctype>
+#include <cerrno>
 #include <cstdlib>
 #include <limits>
-#include <cerrno>
 #include <string>
 
 auto inip::Types::bool2str(const bool b) -> std::string
@@ -33,7 +33,7 @@ auto inip::Types::str2uint(const std::string &s) -> unsigned int
     throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
   }
 
-  char* endptr = nullptr;
+  char *endptr = nullptr;
   errno = 0;
 
   unsigned long result = strtoul(s.c_str(), &endptr, 10);
@@ -72,7 +72,7 @@ auto inip::Types::str2long(const std::string &s) -> long
       throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
     }
 
-    char* endptr = nullptr;
+    char *endptr = nullptr;
     errno = 0;
 
     // use strtol
@@ -104,7 +104,7 @@ auto inip::Types::str2ulong(const std::string &s) -> unsigned long
       throw inip::err::Errors(inip::err::ErrCode::INVALID_VALUE);
     }
 
-    char* endptr = nullptr;
+    char *endptr = nullptr;
     errno = 0;
     unsigned long value = std::strtoul(s.c_str(), &endptr, 10);
 

@@ -8,7 +8,7 @@
 #include "cliconfig.h"
 
 
-struct ArgRuntime{
+struct ArgRuntime {
   bool version = false;
   bool failed_skip = true;
   bool quiet = false;
@@ -21,7 +21,8 @@ struct ArgRuntime{
   bool m_get = false;
 };
 
-namespace {
+namespace
+{
 void print_inip_errors(const inip::err::ErrList &e)
 {
   for (const auto &i : e) {
@@ -32,7 +33,7 @@ void print_inip_errors(const inip::err::ErrList &e)
       << "info: " << i.to_string() << "\n";
   }
 }
-}
+} // namespace
 
 int main(int argc, char **argv)
 {
@@ -87,7 +88,7 @@ int main(int argc, char **argv)
   }
 
   if (argrt.m_valid) {
-    if (!argrt.quiet && !result.valid() && errlist.size() > 0) {
+    if (!argrt.quiet && !result.valid() && !errlist.empty()) {
       std::cerr << "Total errors: " << errlist.size() << "\n";
     }
 

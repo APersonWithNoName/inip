@@ -22,6 +22,28 @@
 namespace inip
 {
 /**
+ * @brief inip parser options
+ *
+ * @param failed_skip Skip errors or stop at the first error
+ * @param use_import Enable import other files
+ * @param import_cover_sec_if_exist Enable cover imported content by the file
+ * @param allow_duplicate_sec Allow duplicate sections
+ * @param cover_sec_if_exist If a section existed, whether cover the existed section
+ * @param allow_duplicate_keys Allow duplicate keys
+ * @param cover_key_if_exist  If a key existed in the section, whether cover the existed key
+ *
+ */
+struct iniOptions {
+  bool failed_skip = true;
+  bool use_import = true;
+  bool import_cover_sec_if_exist = true;
+  bool allow_duplicate_sec = true;
+  bool cover_sec_if_exist = true;
+  bool allow_duplicate_keys = true;
+  bool cover_key_if_exist = true;
+};
+
+/**
  * @brief inip Interface
  *
  * @details inip variety parser interface
@@ -38,6 +60,28 @@ public:
    * @param file_name ini file name
    */
   ini(const std::string &file_name = "");
+
+  /**
+   * @brief load_file Load and parse ini daya from given ini file
+   *
+   * @param file_name The file name
+   * @param err_list A @ref inip::err::ErrCode variable
+   * @param opt @ref inip::iniOptions struct for parser configure
+   * @return err::Errors
+   */
+  err::Errors load_file(const std::string &file_name,
+                        std::vector<inip::err::Errors> &err_list,
+                        const iniOptions opt);
+
+  /**
+   * @brief load_file Load and parse ini daya from constructor ini file
+   *
+   * @param err_list A @ref inip::err::ErrCode variable
+   * @param opt @ref inip::iniOptions struct for parser configure
+   * @return err::Errors
+   */
+  err::Errors load_file(std::vector<inip::err::Errors> &err_list,
+                        const iniOptions opt);
 
   /**
    * @brief load_file Load and parse ini daya from given ini file
