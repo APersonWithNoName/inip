@@ -42,7 +42,7 @@ jobs:
 
       - name: Install doxygen
         run: |
-          choco install doxygen -y
+          choco install doxygen.install -y
 
       - name: Configure CMake
         run: |
