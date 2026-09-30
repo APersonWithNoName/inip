@@ -40,9 +40,13 @@ jobs:
         with:
           arch: amd64
 
+      - name: Install doxygen
+        run: |
+          choco install doxygen -y
+
       - name: Configure CMake
         run: |
-          cmake -G "NMake Makefiles" -DINIP_ENABLE_DOXYGEN=OFF -DINIP_ENABLE_GOOGLETEST=OFF -DCMAKE_BUILD_TYPE=Release
+          cmake -G "NMake Makefiles" -DINIP_ENABLE_DOXYGEN=ON -DINIP_ENABLE_GOOGLETEST=OFF -DCMAKE_BUILD_TYPE=Release
 
       - name: BUild Project
         run: |
@@ -67,9 +71,18 @@ jobs:
 
           echo "Archive name: $archiveName"
 
+          $docName = "inip-v$version-doxydoc"
+
+          mkdir "$docName"
+          cp .\doxybuild\html "$docName"
+
+          echo "Document name: $docName"
+
           7z a -t7z "$archiveName.7z" "$archiveName"
+          7z a -t7z "$docName.7z" "$docName"
 
           echo "ARC_NAME=$archiveName.7z" >> $env:GITHUB_ENV
+          echo "DOC_NAME=$dociveName.7z" >> $env:GITHUB_ENV
 
       - name: Upload Release
         uses: softprops/action-gh-release@v2
@@ -77,5 +90,6 @@ jobs:
           token: ${{ secrets.ACTION_TOKEN }}
           files: |
             ${{ env.ARC_NAME }}
+            ${{ env.DOC_NAME }}
 
           
